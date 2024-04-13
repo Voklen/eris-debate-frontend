@@ -1,0 +1,15 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.stack > div {
+  padding: 20px;
+  border: 1px solid var(--clr-gray);
+  border-radius: 16px;
+  border-radius: 16px;
+  background: var(--white);
+  box-shadow:
+    6px 6px 12px #bebebe,
+    -6px -6px 12px #ffffff;
+}
