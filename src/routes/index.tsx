@@ -30,13 +30,13 @@ export default function Home() {
 	});
 	return (
 		<main>
-			<Stack args={againstArgs()} title={forTitle()} />
+			<Stack title={forTitle()} args={forArgs()} />
 			<div>
 				<Title>Hello World</Title>
 				<h1>Hello world!</h1>
 				<Counter />
 			</div>
-			<Stack args={forArgs()} title={againstTitle()} />
+			<Stack title={againstTitle()} args={againstArgs()} />
 		</main>
 	);
 }
