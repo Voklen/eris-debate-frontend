@@ -5,6 +5,7 @@ import type { Argument } from "~/routes";
 type Props = {
 	title: string;
 	args: Argument[];
+	onArgSelected: (id: number) => void;
 };
 
 export default function Stack(props: Props) {
@@ -12,7 +13,14 @@ export default function Stack(props: Props) {
 		<div class={styles.stack}>
 			<h2>{props.title}</h2>
 			<For each={props.args} fallback={<p>Loading…</p>}>
-				{(arg) => <div>{arg.body}</div>}
+				{(arg) => {
+					const newLocal = () => props.onArgSelected(arg.id);
+					return (
+						<div onClick={newLocal} onKeyDown={newLocal}>
+							{arg.body}
+						</div>
+					);
+				}}
 			</For>
 		</div>
 	);

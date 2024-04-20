@@ -5,6 +5,7 @@
 }
 .stack > div {
   padding: 20px;
+  cursor: pointer;
   border: 1px solid var(--clr-gray);
   border-radius: 16px;
   border-radius: 16px;
