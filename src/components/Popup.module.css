@@ -1,0 +1,19 @@
+.popupContainer {
+  display: none;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  display: grid;
+  place-content: center;
+  z-index: 2;
+  backdrop-filter: blur(3px) contrast(80%) grayscale(80%);
+}
+
+.popup {
+  display: none;
+  background: #ddd;
+  padding: 1rem;
+  border-radius: 20px;
+}

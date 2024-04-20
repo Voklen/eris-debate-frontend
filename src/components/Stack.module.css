@@ -3,14 +3,24 @@
   flex-direction: column;
   gap: 1rem;
 }
+
 .stack > div {
   padding: 20px;
   cursor: pointer;
+  border-radius: 16px;
+  vertical-align: middle;
+}
+
+.arg {
   border: 1px solid var(--clr-gray);
-  border-radius: 16px;
-  border-radius: 16px;
   background: var(--white);
   box-shadow:
     6px 6px 12px #bebebe,
     -6px -6px 12px #ffffff;
+}
+
+.add {
+  font-size: 200%;
+  color: var(--clr-dark-gray);
+  border: 3px dotted var(--clr-dark-gray);
 }
