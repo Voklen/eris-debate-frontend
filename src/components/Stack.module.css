@@ -5,13 +5,13 @@
 }
 
 .stack > div {
-  padding: 20px;
   cursor: pointer;
   border-radius: 16px;
   vertical-align: middle;
 }
 
 .arg {
+  padding: 20px;
   border: 1px solid var(--clr-gray);
   background: var(--white);
   box-shadow:
@@ -20,7 +20,12 @@
 }
 
 .add {
+  border: 3px dotted var(--clr-dark-gray);
+}
+
+.add > div {
+  padding: 20px;
   font-size: 200%;
   color: var(--clr-dark-gray);
-  border: 3px dotted var(--clr-dark-gray);
+  text-align: center;
 }

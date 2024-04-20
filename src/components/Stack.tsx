@@ -1,8 +1,6 @@
-import { For } from "solid-js";
+import { For, Show, createSignal } from "solid-js";
 import styles from "./Stack.module.css";
 import type { Argument } from "~/routes";
-import { Portal } from "solid-js/web";
-import Popup from "./Popup";
 
 type Props = {
 	title: string;
@@ -24,14 +22,29 @@ export default function Stack(props: Props) {
 					);
 				}}
 			</For>
-			<div class={styles.add}>
-				+
-				<Popup>
+			<AddArgumentTile />
+		</div>
+	);
+}
+function AddArgumentTile() {
+	const [isCreating, setIsCreating] = createSignal(false);
+
+	const openInput = () => setIsCreating(true);
+	return (
+		<div class={styles.add}>
+			<Show
+				when={isCreating()}
+				fallback={
+					<div onClick={openInput} onKeyPress={openInput}>
+						+
+					</div>
+				}
+			>
+				<form class={styles.addForm}>
 					<h2>Create an argument</h2>
-					<h3>{props.title}</h3>
-					<textarea />
-				</Popup>
-			</div>
+					<textarea placeholder="Let’s get some good discussion going…" />
+				</form>
+			</Show>
 		</div>
 	);
 }
