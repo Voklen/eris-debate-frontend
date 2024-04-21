@@ -1,20 +1,18 @@
 import { For } from "solid-js";
 import styles from "./Stack.module.css";
-import type { Argument } from "~/routes";
 import AddArgumentTile from "./AddArgumentTile";
+import type { TopArgument } from "~/utils/types";
 
 type Props = {
-	title: string;
-	args: Argument[];
-	opposingID: number;
+	data: TopArgument;
 	onArgSelected: (id: number) => void;
 };
 
 export default function Stack(props: Props) {
 	return (
 		<div class={styles.stack}>
-			<h2>{props.title}</h2>
-			<For each={props.args} fallback={<p>Loading…</p>}>
+			<h2>{props.data.title}</h2>
+			<For each={props.data.arguments} fallback={<p>Loading…</p>}>
 				{(arg) => {
 					const argSelected = () => props.onArgSelected(arg.id);
 					return (
@@ -28,7 +26,7 @@ export default function Stack(props: Props) {
 					);
 				}}
 			</For>
-			<AddArgumentTile opposingID={props.opposingID} />
+			<AddArgumentTile opposingID={props.data.opposingID} />
 		</div>
 	);
 }

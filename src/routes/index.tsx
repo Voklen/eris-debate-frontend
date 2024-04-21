@@ -1,47 +1,36 @@
 import { Title } from "@solidjs/meta";
+import { type Setter, createSignal, onMount, Accessor } from "solid-js";
 import Counter from "~/components/Counter";
 import Stack from "~/components/Stack";
+import {
+	type Argument,
+	type TopArgument,
+	emptyTopArgument,
+} from "~/utils/types";
 import "./index.css";
-import { type Setter, createSignal, onMount } from "solid-js";
-
-export type Argument = {
-	id: number;
-	body: string;
-};
 
 type Topic = {
-	for: { title: string; arguments: Argument[] };
-	against: { title: string; arguments: Argument[] };
+	for: TopArgument;
+	against: TopArgument;
 };
 
 export default function Home() {
-	const [forArgs, setForArgs] = createSignal<Argument[]>([]);
-	const [againstArgs, setAgainstArgs] = createSignal<Argument[]>([]);
-	const [forTitle, setForTitle] = createSignal("");
-	const [againstTitle, setAgainstTitle] = createSignal("");
-	const [selectedForID, setSelectedForID] = createSignal(0);
-	const [selectedAgainstID, setSelectedAgainstID] = createSignal(0);
+	const [forArg, setForArg] = createSignal<TopArgument>(emptyTopArgument);
+	const [againstArg, setAgainstArg] =
+		createSignal<TopArgument>(emptyTopArgument);
 
 	onMount(async () => {
 		const res = await fetch("http://127.0.0.1:9000/topic");
 		const topic = (await res.json()) as Topic;
-		setForTitle(topic.for.title);
-		setAgainstTitle(topic.against.title);
-		setForArgs(topic.for.arguments);
-		setAgainstArgs(topic.against.arguments);
-		setSelectedForID(1);
-		setSelectedAgainstID(2);
+		setForArg(topic.for);
+		setAgainstArg(topic.against);
 	});
 
 	return (
 		<main>
 			<Stack
-				title={forTitle()}
-				args={forArgs()}
-				opposingID={selectedAgainstID()}
-				onArgSelected={(id) =>
-					argSelected(id, setAgainstArgs, setSelectedForID)
-				}
+				data={forArg()}
+				onArgSelected={(id) => argSelected(id, againstArg(), setAgainstArg)}
 			/>
 			<div>
 				<Title>Hello World</Title>
@@ -49,12 +38,8 @@ export default function Home() {
 				<Counter />
 			</div>
 			<Stack
-				title={againstTitle()}
-				args={againstArgs()}
-				opposingID={selectedForID()}
-				onArgSelected={(id) =>
-					argSelected(id, setForArgs, setSelectedAgainstID)
-				}
+				data={againstArg()}
+				onArgSelected={(id) => argSelected(id, forArg(), setForArg)}
 			/>
 		</main>
 	);
@@ -62,11 +47,15 @@ export default function Home() {
 
 async function argSelected(
 	id: number,
-	otherStackSetter: Setter<Argument[]>,
-	selectedSetter: Setter<number>,
+	otherStack: TopArgument,
+	otherStackSetter: Setter<TopArgument>,
 ) {
-	selectedSetter(id);
 	const res = await fetch(`http://127.0.0.1:9000/arguments?id=${id}`);
-	const topic = (await res.json()) as { args: Argument[] };
-	otherStackSetter(topic.args);
+	const topic: { args: Argument[] } = await res.json();
+	const arg: TopArgument = {
+		title: otherStack.title,
+		opposingID: id,
+		arguments: topic.args,
+	};
+	otherStackSetter(arg);
 }

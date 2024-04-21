@@ -1,0 +1,18 @@
+.add {
+  border: 3px dotted var(--clr-dark-gray);
+}
+
+.add > div,
+.add > form {
+  padding: 20px;
+}
+
+.add > div {
+  font-size: 200%;
+  color: var(--clr-dark-gray);
+  text-align: center;
+}
+
+.addForm > textarea {
+  width: 100%;
+}
