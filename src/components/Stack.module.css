@@ -18,14 +18,3 @@
     6px 6px 12px #bebebe,
     -6px -6px 12px #ffffff;
 }
-
-.add {
-  border: 3px dotted var(--clr-dark-gray);
-}
-
-.add > div {
-  padding: 20px;
-  font-size: 200%;
-  color: var(--clr-dark-gray);
-  text-align: center;
-}

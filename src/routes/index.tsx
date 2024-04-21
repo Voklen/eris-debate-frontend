@@ -17,8 +17,10 @@ type Topic = {
 export default function Home() {
 	const [forArgs, setForArgs] = createSignal<Argument[]>([]);
 	const [againstArgs, setAgainstArgs] = createSignal<Argument[]>([]);
-	const [forTitle, setForTitle] = createSignal<string>("");
-	const [againstTitle, setAgainstTitle] = createSignal<string>("");
+	const [forTitle, setForTitle] = createSignal("");
+	const [againstTitle, setAgainstTitle] = createSignal("");
+	const [selectedForID, setSelectedForID] = createSignal(0);
+	const [selectedAgainstID, setSelectedAgainstID] = createSignal(0);
 
 	onMount(async () => {
 		const res = await fetch("http://127.0.0.1:9000/topic");
@@ -27,6 +29,8 @@ export default function Home() {
 		setAgainstTitle(topic.against.title);
 		setForArgs(topic.for.arguments);
 		setAgainstArgs(topic.against.arguments);
+		setSelectedForID(1);
+		setSelectedAgainstID(2);
 	});
 
 	return (
@@ -34,7 +38,10 @@ export default function Home() {
 			<Stack
 				title={forTitle()}
 				args={forArgs()}
-				onArgSelected={(id) => argSelected(id, setAgainstArgs)}
+				opposingID={selectedAgainstID()}
+				onArgSelected={(id) =>
+					argSelected(id, setAgainstArgs, setSelectedForID)
+				}
 			/>
 			<div>
 				<Title>Hello World</Title>
@@ -44,13 +51,21 @@ export default function Home() {
 			<Stack
 				title={againstTitle()}
 				args={againstArgs()}
-				onArgSelected={(id) => argSelected(id, setForArgs)}
+				opposingID={selectedForID()}
+				onArgSelected={(id) =>
+					argSelected(id, setForArgs, setSelectedAgainstID)
+				}
 			/>
 		</main>
 	);
 }
 
-async function argSelected(id: number, otherStackSetter: Setter<Argument[]>) {
+async function argSelected(
+	id: number,
+	otherStackSetter: Setter<Argument[]>,
+	selectedSetter: Setter<number>,
+) {
+	selectedSetter(id);
 	const res = await fetch(`http://127.0.0.1:9000/arguments?id=${id}`);
 	const topic = (await res.json()) as { args: Argument[] };
 	otherStackSetter(topic.args);
