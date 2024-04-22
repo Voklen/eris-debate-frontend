@@ -6,7 +6,7 @@ import {
 	type TopArgument,
 	emptyTopArgument,
 } from "~/utils/types";
-import "./index.css";
+import styles from "./index.module.css";
 
 type Topic = {
 	for: TopArgument;
@@ -26,7 +26,7 @@ export default function Home() {
 	});
 
 	return (
-		<main>
+		<main class={styles.stage}>
 			<Stack
 				data={forArg()}
 				onArgSelected={(id) => argSelected(id, againstArg(), setAgainstArg)}

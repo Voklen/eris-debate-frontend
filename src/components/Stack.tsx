@@ -1,7 +1,7 @@
 import { For } from "solid-js";
-import styles from "./Stack.module.css";
-import AddArgumentTile from "./AddArgumentTile";
 import type { TopArgument } from "~/utils/types";
+import AddArgumentTile from "./AddArgumentTile";
+import styles from "./Stack.module.css";
 
 type Props = {
 	data: TopArgument;
