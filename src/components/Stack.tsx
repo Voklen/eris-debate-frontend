@@ -12,7 +12,12 @@ export default function Stack(props: Props) {
 	return (
 		<div class={styles.stack}>
 			<h2>{props.data.title}</h2>
-			<For each={props.data.arguments} fallback={<p>Loading…</p>}>
+			<For
+				each={props.data.arguments}
+				fallback={
+					<p class="info">No responces yet! Go ahead and make the first:</p>
+				}
+			>
 				{(arg) => {
 					const argSelected = () => props.onArgSelected(arg.id);
 					return (
