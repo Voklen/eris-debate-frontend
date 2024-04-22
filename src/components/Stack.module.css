@@ -12,8 +12,8 @@
 
 .arg {
   padding: 20px;
-  border: 1px solid var(--clr-gray);
-  background: var(--white);
+  border: 1px solid var(--ring);
+  background: var(--background);
   box-shadow:
     6px 6px 12px #bebebe,
     -6px -6px 12px #ffffff;

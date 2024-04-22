@@ -1,23 +1,43 @@
 :root {
-  --off-white: #f5f5f3;
-  --clr-white: #ffffff;
-  --clr-black: #000000;
-  --clr-dark-gray: #707070;
-  --clr-gray: #d0cfcb;
-  --clr-light-gray: #f1f1ed;
-  --clr-accent: #335d92;
-  --clr-muted-accent: #384c64;
-  --light-accent: rgba(68, 107, 158, 0.2);
-
-  --text-color: var(--clr-black);
-  --invert-text-color: var(--clr-white);
-  --bg: var(--off-white);
-  --invert-bg: var(--clr-dark-gray);
+  /* Permanent */
+  --radius: 0.5rem;
+  /* Light mode */
+  --background: hsl(0 0% 100%);
+  --foreground: hsl(240 10% 3.9%);
+  --primary: hsl(240 5.9% 10%);
+  --primary-foreground: hsl(0 0% 98%);
+  --secondary: hsl(240 4.8% 95.9%);
+  --secondary-foreground: hsl(240 5.9% 10%);
+  --muted: hsl(240 4.8% 95.9%);
+  --muted-foreground: hsl(240 3.8% 46.1%);
+  --accent: hsl(240 4.8% 95.9%);
+  --accent-foreground: hsl(240 5.9% 10%);
+  --destructive: hsl(0 72.22% 50.59%);
+  --destructive-foreground: hsl(0 0% 98%);
+  --border: hsl(240 5.9% 90%);
+  --ring: hsl(240 5% 64.9%);
+}
+.dark {
+  --background: hsl(240 10% 3.9%);
+  --foreground: hsl(0 0% 98%);
+  --primary: hsl(0 0% 98%);
+  --primary-foreground: hsl(240 5.9% 10%);
+  --secondary: hsl(240 3.7% 15.9%);
+  --secondary-foreground: hsl(0 0% 98%);
+  --muted: hsl(240 3.7% 15.9%);
+  --muted-foreground: hsl(240 5% 64.9%);
+  --accent: hsl(240 3.7% 15.9%);
+  --accent-foreground: hsl(0 0% 98%);
+  --destructive: hsl(0 62.8% 30.6%);
+  --destructive-foreground: hsl(0 85.7% 97.3%);
+  --border: hsl(240 3.7% 15.9%);
+  --ring: hsl(240 4.9% 83.9%);
 }
 
 body {
   font-family: Gordita, Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
     "Helvetica Neue", sans-serif;
+  color: var(--foreground);
 }
 
 a {
@@ -30,7 +50,7 @@ main {
 }
 
 h1 {
-  color: var(--clr-accent);
+  color: var(--primary);
   text-transform: uppercase;
   font-size: 4rem;
   font-weight: 100;
@@ -51,26 +71,26 @@ p {
 button {
   padding: 1em 2em;
   cursor: pointer;
-  background-color: var(--clr-accent);
-  color: var(--invert-text-color);
+  color: var(--primary-foreground);
+  background-color: var(--primary);
+  border: 2px solid var(--border);
   border-radius: 2em;
-  outline: none;
   width: 200px;
   font-variant-numeric: tabular-nums;
 }
 
-button:focus {
-  border: 2px solid var(--invert-bg);
+button:hover {
+  filter: contrast(85%);
 }
 
 button:active {
-  color: var(--clr-accent);
-  background-color: var(--light-accent);
+  color: var(--primary);
+  background-color: var(--primary-foreground);
 }
 
 .info {
   font-size: 120%;
-  color: var(--clr-muted-accent);
+  color: var(--accent-foreground);
 }
 
 @media (min-width: 480px) {

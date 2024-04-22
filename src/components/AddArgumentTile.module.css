@@ -1,5 +1,5 @@
 .add {
-  border: 3px dotted var(--clr-dark-gray);
+  border: 3px dotted var(--muted-foreground);
 }
 
 .add > div,
@@ -9,10 +9,14 @@
 
 .add > div {
   font-size: 200%;
-  color: var(--clr-dark-gray);
+  color: var(--muted-foreground);
   text-align: center;
 }
 
 .addForm > textarea {
   width: 100%;
+}
+
+.addForm > h2 {
+  margin-top: 0;
 }
