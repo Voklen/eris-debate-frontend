@@ -38,6 +38,7 @@ body {
   font-family: Gordita, Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
     "Helvetica Neue", sans-serif;
   color: var(--foreground);
+  background-color: var(--background);
 }
 
 a {
@@ -74,7 +75,6 @@ button {
   color: var(--primary-foreground);
   background-color: var(--primary);
   border: 2px solid var(--border);
-  border-radius: 2em;
   width: 200px;
   font-variant-numeric: tabular-nums;
 }
@@ -147,4 +147,5 @@ button,
 textarea,
 select {
   font: inherit;
+  border-radius: var(--radius);
 }
