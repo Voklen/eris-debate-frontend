@@ -1,6 +1,5 @@
 import { Title } from "@solidjs/meta";
-import { type Setter, createSignal, onMount, Accessor } from "solid-js";
-import Counter from "~/components/Counter";
+import { type Setter, createSignal, onMount } from "solid-js";
 import Stack from "~/components/Stack";
 import {
 	type Argument,
@@ -33,9 +32,8 @@ export default function Home() {
 				onArgSelected={(id) => argSelected(id, againstArg(), setAgainstArg)}
 			/>
 			<div>
-				<Title>Hello World</Title>
-				<h1>Hello world!</h1>
-				<Counter />
+				<Title>Eris Debate</Title>
+				<h1>Eris Debate</h1>
 			</div>
 			<Stack
 				data={againstArg()}
