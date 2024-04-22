@@ -12,7 +12,7 @@ export default function AddArgumentTile(props: Props) {
 	const openInput = () => setIsCreating(true);
 	const submit = () => sendArgumentToServer(props.opposingID, text());
 	return (
-		<div class={styles.add}>
+		<div class={styles.add} classList={{ [styles.clicked]: isCreating() }}>
 			<Show
 				when={isCreating()}
 				fallback={

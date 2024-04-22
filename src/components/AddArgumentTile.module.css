@@ -13,6 +13,14 @@
   text-align: center;
 }
 
+.clicked {
+  border-color: var(--foreground);
+}
+
+.clicked > form {
+  cursor: default;
+}
+
 .addForm > textarea {
   width: 100%;
 }
