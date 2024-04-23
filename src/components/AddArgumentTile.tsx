@@ -1,8 +1,10 @@
 import { Show, createSignal } from "solid-js";
+import type { Argument } from "~/utils/types";
 import styles from "./AddArgumentTile.module.css";
 
 type Props = {
 	opposingID: number;
+	appendAddedArg: (arg: Argument) => void;
 };
 
 export default function AddArgumentTile(props: Props) {
@@ -10,7 +12,12 @@ export default function AddArgumentTile(props: Props) {
 	const [text, setText] = createSignal("");
 
 	const openInput = () => setIsCreating(true);
-	const submit = () => sendArgumentToServer(props.opposingID, text());
+	const submit = () => {
+		// const staticText = text();
+		props.appendAddedArg({ id: 0, body: text() });
+		sendArgumentToServer(props.opposingID, text());
+		setText("");
+	};
 	return (
 		<div class={styles.add} classList={{ [styles.clicked]: isCreating() }}>
 			<Show

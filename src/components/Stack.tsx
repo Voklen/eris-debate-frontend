@@ -1,5 +1,5 @@
-import { For } from "solid-js";
-import type { TopArgument } from "~/utils/types";
+import { For, createSignal } from "solid-js";
+import type { Argument, TopArgument } from "~/utils/types";
 import AddArgumentTile from "./AddArgumentTile";
 import styles from "./Stack.module.css";
 
@@ -9,11 +9,14 @@ type Props = {
 };
 
 export default function Stack(props: Props) {
+	const [addedArgs, setAddedArgs] = createSignal<Argument[]>([]);
+	const args = () => [...props.data.arguments, ...addedArgs()];
+
 	return (
 		<div class={styles.stack}>
 			<h2>{props.data.title}</h2>
 			<For
-				each={props.data.arguments}
+				each={args()}
 				fallback={
 					<p class="info">No responces yet! Go ahead and make the first:</p>
 				}
@@ -31,7 +34,12 @@ export default function Stack(props: Props) {
 					);
 				}}
 			</For>
-			<AddArgumentTile opposingID={props.data.opposingID} />
+			<AddArgumentTile
+				opposingID={props.data.opposingID}
+				appendAddedArg={(arg) => {
+					setAddedArgs([...addedArgs(), arg]);
+				}}
+			/>
 		</div>
 	);
 }
