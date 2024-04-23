@@ -60,15 +60,6 @@ h1 {
   max-width: 14rem;
 }
 
-h2,
-h3,
-h4,
-h5,
-h6,
-p {
-  margin: 2rem auto;
-}
-
 button {
   padding: 1em 2em;
   cursor: pointer;
@@ -90,6 +81,7 @@ button:active {
 
 .info {
   font-size: 120%;
+  margin: 2rem auto;
   color: var(--accent-foreground);
 }
 

@@ -22,9 +22,8 @@
 }
 
 .addForm > textarea {
+  margin: 1rem auto;
   width: 100%;
-}
-
-.addForm > h2 {
-  margin-top: 0;
+  height: 8em;
+  resize: vertical;
 }
