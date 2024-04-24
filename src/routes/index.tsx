@@ -1,11 +1,7 @@
 import { Title } from "@solidjs/meta";
-import { type Setter, createSignal, onMount } from "solid-js";
+import { createSignal, onMount } from "solid-js";
 import Stack from "~/components/Stack";
-import {
-	type Argument,
-	type TopArgument,
-	emptyTopArgument,
-} from "~/utils/types";
+import { type TopArgument, emptyTopArgument } from "~/utils/types";
 import styles from "./index.module.css";
 
 type Topic = {
@@ -14,6 +10,8 @@ type Topic = {
 };
 
 export default function Home() {
+	const [forArgSelected, setForArgSelected] = createSignal<number>();
+	const [againstArgSelected, setAgainstArgSelected] = createSignal<number>();
 	const [forArg, setForArg] = createSignal<TopArgument>(emptyTopArgument);
 	const [againstArg, setAgainstArg] =
 		createSignal<TopArgument>(emptyTopArgument);
@@ -29,7 +27,8 @@ export default function Home() {
 		<main class={styles.stage}>
 			<Stack
 				data={forArg()}
-				onArgSelected={(id) => argSelected(id, againstArg(), setAgainstArg)}
+				responseTo={forArgSelected}
+				onArgSelected={setAgainstArgSelected}
 			/>
 			<div>
 				<Title>Eris Debate</Title>
@@ -37,23 +36,9 @@ export default function Home() {
 			</div>
 			<Stack
 				data={againstArg()}
-				onArgSelected={(id) => argSelected(id, forArg(), setForArg)}
+				responseTo={againstArgSelected}
+				onArgSelected={setForArgSelected}
 			/>
 		</main>
 	);
-}
-
-async function argSelected(
-	id: number,
-	otherStack: TopArgument,
-	otherStackSetter: Setter<TopArgument>,
-) {
-	const res = await fetch(`http://127.0.0.1:9000/arguments?id=${id}`);
-	const topic: { args: Argument[] } = await res.json();
-	const arg: TopArgument = {
-		title: otherStack.title,
-		opposingID: id,
-		arguments: topic.args,
-	};
-	otherStackSetter(arg);
 }
