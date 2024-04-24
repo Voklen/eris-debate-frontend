@@ -1,44 +1,23 @@
-import { Title } from "@solidjs/meta";
-import { createSignal, onMount } from "solid-js";
-import Stack from "~/components/Stack";
-import { type TopArgument, emptyTopArgument } from "~/utils/types";
-import styles from "./index.module.css";
-
-type Topic = {
-	for: TopArgument;
-	against: TopArgument;
-};
+import { Match, Switch, createResource } from "solid-js";
+import type { Topic } from "~/utils/types";
+import { Main } from "./_components/Main";
 
 export default function Home() {
-	const [forArgSelected, setForArgSelected] = createSignal<number>();
-	const [againstArgSelected, setAgainstArgSelected] = createSignal<number>();
-	const [forArg, setForArg] = createSignal<TopArgument>(emptyTopArgument);
-	const [againstArg, setAgainstArg] =
-		createSignal<TopArgument>(emptyTopArgument);
-
-	onMount(async () => {
-		const res = await fetch("http://127.0.0.1:9000/topic");
-		const topic = (await res.json()) as Topic;
-		setForArg(topic.for);
-		setAgainstArg(topic.against);
-	});
+	const [topic] = createResource(fetchTopic);
 
 	return (
-		<main class={styles.stage}>
-			<Stack
-				data={forArg()}
-				responseTo={forArgSelected}
-				onArgSelected={setAgainstArgSelected}
-			/>
-			<div>
-				<Title>Eris Debate</Title>
-				<h1>Eris Debate</h1>
-			</div>
-			<Stack
-				data={againstArg()}
-				responseTo={againstArgSelected}
-				onArgSelected={setForArgSelected}
-			/>
-		</main>
+		<Switch>
+			<Match when={topic.error}>
+				<p class="info"> Error: {topic.error}</p>
+			</Match>
+			<Match when={topic()}>
+				<Main topic={topic()!} />
+			</Match>
+		</Switch>
 	);
+}
+
+async function fetchTopic() {
+	const res = await fetch("http://127.0.0.1:9000/topic");
+	return (await res.json()) as Topic;
 }

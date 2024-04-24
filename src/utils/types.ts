@@ -9,8 +9,7 @@ export type TopArgument = {
 	arguments: Argument[];
 };
 
-export const emptyTopArgument = {
-	title: "",
-	opposingID: 0,
-	arguments: [],
+export type Topic = {
+	for: TopArgument;
+	against: TopArgument;
 };
