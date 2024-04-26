@@ -7,11 +7,12 @@
 
 .nav {
   display: flex;
-  gap: 2rem;
+  align-items: center;
+  gap: 5rem;
 }
 
 .nav a {
-  margin: 16px;
+  font-size: 120%;
   color: var(--forground);
   text-decoration: none;
   border-bottom: 2px solid transparent;
