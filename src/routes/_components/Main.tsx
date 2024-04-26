@@ -10,24 +10,13 @@ type Props = {
 
 // Main body of the main page
 export function Main(props: Props) {
-	const [forArgSelected, setForArgSelected] = createSignal<number>();
-	const [againstArgSelected, setAgainstArgSelected] = createSignal<number>();
-
 	return (
 		<main class={styles.stage}>
-			<Stack
-				data={props.topic.for}
-				responseTo={forArgSelected}
-				onArgSelected={setAgainstArgSelected}
-			/>
+			<Stack data={props.topic.for} side="for" />
 			<div>
 				<Title>{props.topic.name} - Eris Debate</Title>
 			</div>
-			<Stack
-				data={props.topic.against}
-				responseTo={againstArgSelected}
-				onArgSelected={setForArgSelected}
-			/>
+			<Stack data={props.topic.against} side="against" />
 		</main>
 	);
 }

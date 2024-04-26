@@ -1,16 +1,20 @@
-import { type Accessor, For, Suspense, createResource } from "solid-js";
+import { type Params, useSearchParams } from "@solidjs/router";
+import { For, Suspense, createResource } from "solid-js";
 import type { Argument, TopArgument } from "~/utils/types";
 import AddArgumentTile from "./AddArgumentTile";
 import styles from "./Stack.module.css";
 
+type Side = "for" | "against";
+
 type Props = {
 	data: TopArgument;
-	responseTo: Accessor<number | undefined>;
-	onArgSelected: (id: number) => void;
+	side: Side;
 };
 
 export default function Stack(props: Props) {
-	const [args, { mutate }] = createResource(props.responseTo, fetchArg);
+	const [searchParams, setSearchParams] = useSearchParams();
+	const otherArgId = () => getOtherArgId(props.side, searchParams);
+	const [args, { mutate }] = createResource(otherArgId, fetchArg);
 
 	function appendArg(arg: Argument) {
 		mutate((args) => {
@@ -30,7 +34,7 @@ export default function Stack(props: Props) {
 					}
 				>
 					{(arg) => {
-						const argSelected = () => props.onArgSelected(arg.id);
+						const argSelected = () => setSearchParams({ [props.side]: arg.id });
 						return (
 							<div
 								onClick={argSelected}
@@ -44,16 +48,25 @@ export default function Stack(props: Props) {
 				</For>
 			</Suspense>
 			<AddArgumentTile
-				opposingID={props.responseTo() ?? props.data.opposingID}
+				opposingID={otherArgId() ?? props.data.opposingID}
 				appendAddedArg={appendArg}
 			/>
 		</div>
 	);
 }
 
-async function fetchArg(id?: number) {
-	if (id === undefined) return;
+async function fetchArg(id: number) {
+	if (id === 0) return;
 	const res = await fetch(`http://127.0.0.1:9000/arguments?id=${id}`);
 	const args: { args: Argument[] } = await res.json();
 	return args.args;
+}
+
+function getOtherArgId(side: Side, searchParams: Partial<Params>) {
+	switch (side) {
+		case "for":
+			return searchParams.against ? Number.parseInt(searchParams.against) : 0;
+		case "against":
+			return searchParams.for ? Number.parseInt(searchParams.for) : 0;
+	}
 }
