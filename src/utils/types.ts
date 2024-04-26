@@ -10,6 +10,7 @@ export type TopArgument = {
 };
 
 export type Topic = {
+	name: string;
 	for: TopArgument;
 	against: TopArgument;
 };

@@ -21,8 +21,7 @@ export function Main(props: Props) {
 				onArgSelected={setAgainstArgSelected}
 			/>
 			<div>
-				<Title>Eris Debate</Title>
-				<h1>Eris Debate</h1>
+				<Title>{props.topic.name} - Eris Debate</Title>
 			</div>
 			<Stack
 				data={props.topic.against}
