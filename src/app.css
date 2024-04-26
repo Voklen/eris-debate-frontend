@@ -41,10 +41,6 @@ body {
   background-color: var(--background);
 }
 
-a {
-  margin-right: 1rem;
-}
-
 main {
   text-align: center;
   padding: 1em;
@@ -61,12 +57,11 @@ h1 {
 }
 
 button {
-  padding: 1em 2em;
+  padding: 1rem 3rem;
   cursor: pointer;
   color: var(--primary-foreground);
   background-color: var(--primary);
   border: 2px solid var(--border);
-  width: 200px;
   font-variant-numeric: tabular-nums;
 }
 
@@ -133,7 +128,7 @@ svg {
   display: block;
   max-width: 100%;
 }
-/* 6. Remove built-in form typography styles */
+/* 6. Remove built-in form typography styles  (and add curves)*/
 input,
 button,
 textarea,
