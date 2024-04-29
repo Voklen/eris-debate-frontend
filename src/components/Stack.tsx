@@ -36,11 +36,7 @@ export default function Stack(props: Props) {
 					{(arg) => {
 						const argSelected = () => setSearchParams({ [props.side]: arg.id });
 						return (
-							<div
-								onClick={argSelected}
-								onKeyDown={argSelected}
-								class={styles.arg}
-							>
+							<div onClick={argSelected} onKeyDown={argSelected} class="card">
 								{arg.body}
 							</div>
 						);

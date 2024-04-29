@@ -45,7 +45,18 @@ body {
 
 main {
   text-align: center;
-  padding: 1em;
+  padding: 16px;
+}
+
+form label {
+  margin-top: 1em;
+  display: block;
+}
+
+textarea,
+input {
+  display: block;
+  border: 1px solid var(--ring);
 }
 
 button {
@@ -70,6 +81,13 @@ button:active {
   font-size: 120%;
   margin: 2rem auto;
   color: var(--accent-foreground);
+}
+
+.card {
+  padding: 20px;
+  border: 1px solid var(--ring);
+  background: var(--background);
+  box-shadow: var(--shadow);
 }
 
 @media (min-width: 480px) {
