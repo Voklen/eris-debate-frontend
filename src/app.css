@@ -59,6 +59,13 @@ input {
   border: 1px solid var(--ring);
 }
 
+input,
+button,
+textarea,
+select {
+  border-radius: var(--radius);
+}
+
 button {
   padding: 1rem 3rem;
   cursor: pointer;
@@ -138,11 +145,15 @@ svg {
   display: block;
   max-width: 100%;
 }
-/* 6. Remove built-in form typography styles  (and add curves)*/
+/*
+  6. Remove built-in form typography styles
+  Word and letter spacing from https://adrianroselli.com/2019/09/under-engineered-text-boxen.html
+*/
 input,
 button,
 textarea,
 select {
   font: inherit;
-  border-radius: var(--radius);
+  letter-spacing: inherit;
+  word-spacing: inherit;
 }
