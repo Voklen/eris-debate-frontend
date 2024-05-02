@@ -1,54 +1,61 @@
-import type { Params } from "@solidjs/router";
 import styles from "./Signup.module.css";
 import { createStore } from "solid-js/store";
 
-type InputEvent = Event & {
-	currentTarget: HTMLInputElement;
-	target: HTMLInputElement;
-};
-
-type SignupFormData = {
-	email: string;
-	password: string;
-	confirmPassword: string;
-};
-type SignupFormKey = keyof SignupFormData;
-
-function isKey(s: string, defaultFormData: SignupFormData): s is SignupFormKey {
-	return s in defaultFormData;
-}
-
-const defaultFormData = {
+const emptyFormData = {
 	email: "",
 	password: "",
 	confirmPassword: "",
 };
 
+type SignupFormData = typeof emptyFormData;
+type SignupFormKey = keyof SignupFormData;
+type InputEvent = Event & {
+	currentTarget: HTMLInputElement;
+	target: HTMLInputElement;
+};
+
+function isKey(s: string, defaultFormData: SignupFormData): s is SignupFormKey {
+	return s in defaultFormData;
+}
+
 export default function Signup() {
-	const [form, setForm] = createStore<SignupFormData>(defaultFormData);
+	let formElement!: HTMLFormElement;
+	const [formData, setForm] = createStore<SignupFormData>(emptyFormData);
 	const handleInput = (event: InputEvent) => {
 		const target = event.currentTarget;
-		const name = target.name;
-		if (!isKey(name, defaultFormData)) return;
-		setForm(name, target.value);
+		if (!isKey(target.name, emptyFormData)) return;
+		setForm(target.name, target.value);
 	};
+	const handleSubmit = () => submitForm(formData);
 	return (
 		<main class={styles.main}>
-			<form class={`${styles.form} card`} method="post">
+			<form class={`${styles.form} card`} ref={formElement}>
 				<h1>Signup</h1>
 				<label for="email">Email</label>
 				<input
 					type="email"
 					name="email"
 					id="email"
-					onChange={handleInput}
+					onInput={handleInput}
 					placeholder={randomPlaceholder()}
 				/>
 				<label for="password">Password</label>
-				<input type="password" name="password" id="password" />
+				<input
+					type="password"
+					name="password"
+					id="password"
+					onInput={handleInput}
+				/>
 				<label for="confirm-password">Confirm password</label>
-				<input type="password" id="confirm-password" name="confirmPassword" />
-				<button type="submit">Submit</button>
+				<input
+					type="password"
+					id="confirm-password"
+					name="confirmPassword"
+					onInput={handleInput}
+				/>
+				<button type="button" onClick={handleSubmit}>
+					Submit
+				</button>
 			</form>
 		</main>
 	);
@@ -66,20 +73,16 @@ function randomPlaceholder() {
 	return emails[Math.floor(Math.random() * emails.length)];
 }
 
-type SignupParams = {
-	email: string;
-	password: string;
-	confirmPassword: string;
-};
+async function submitForm(formData: SignupFormData): Promise<number> {
+	if (formData.password !== formData.confirmPassword) return 0;
 
-async function sendSignupRequest(
-	searchParams: Partial<Params>,
-): Promise<number> {
-	console.log(searchParams);
-	const signupParams = searchParams;
-	const res = await fetch("http://127.0.0.1:9000/signup", {
+	const { confirmPassword, ...cleanFormData } = formData;
+	const res = await fetch("http://127.0.0.1:9000/account/signup", {
 		method: "POST",
-		body: JSON.stringify(signupParams),
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(cleanFormData),
 	});
 	const { token }: { token: number } = await res.json();
 	return token;
