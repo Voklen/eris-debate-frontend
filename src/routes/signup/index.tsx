@@ -1,61 +1,30 @@
 import styles from "./Signup.module.css";
-import { createStore } from "solid-js/store";
 
 const emptyFormData = {
 	email: "",
 	password: "",
 	confirmPassword: "",
 };
-
 type SignupFormData = typeof emptyFormData;
 type SignupFormKey = keyof SignupFormData;
-type InputEvent = Event & {
-	currentTarget: HTMLInputElement;
-	target: HTMLInputElement;
-};
-
-function isKey(s: string, defaultFormData: SignupFormData): s is SignupFormKey {
-	return s in defaultFormData;
-}
 
 export default function Signup() {
-	let formElement!: HTMLFormElement;
-	const [formData, setForm] = createStore<SignupFormData>(emptyFormData);
-	const handleInput = (event: InputEvent) => {
-		const target = event.currentTarget;
-		if (!isKey(target.name, emptyFormData)) return;
-		setForm(target.name, target.value);
-	};
-	const handleSubmit = () => submitForm(formData);
 	return (
 		<main class={styles.main}>
-			<form class={`${styles.form} card`} ref={formElement}>
+			<form class={`${styles.form} card`} onSubmit={submitForm}>
 				<h1>Signup</h1>
 				<label for="email">Email</label>
 				<input
 					type="email"
 					name="email"
 					id="email"
-					onInput={handleInput}
 					placeholder={randomPlaceholder()}
 				/>
 				<label for="password">Password</label>
-				<input
-					type="password"
-					name="password"
-					id="password"
-					onInput={handleInput}
-				/>
+				<input type="password" name="password" id="password" />
 				<label for="confirm-password">Confirm password</label>
-				<input
-					type="password"
-					id="confirm-password"
-					name="confirmPassword"
-					onInput={handleInput}
-				/>
-				<button type="button" onClick={handleSubmit}>
-					Submit
-				</button>
+				<input type="password" id="confirm-password" name="confirmPassword" />
+				<button type="submit">Submit</button>
 			</form>
 		</main>
 	);
@@ -73,7 +42,20 @@ function randomPlaceholder() {
 	return emails[Math.floor(Math.random() * emails.length)];
 }
 
-async function submitForm(formData: SignupFormData): Promise<number> {
+async function submitForm(event: Event): Promise<number> {
+	event.preventDefault();
+	const form = event.target as HTMLFormElement;
+	if (form === null) throw new Error("No form element found");
+	// Fill formData by extracting the value from every child element with a name matching a property in the object
+	const formData = emptyFormData;
+	for (const key in formData) {
+		const inputElement = form.querySelector(
+			`input[name="${key}"]`,
+		) as HTMLInputElement;
+		if (inputElement === null) continue;
+		formData[key as SignupFormKey] = inputElement.value;
+	}
+	//TODO Improve error handling
 	if (formData.password !== formData.confirmPassword) return 0;
 
 	const { confirmPassword, ...cleanFormData } = formData;
