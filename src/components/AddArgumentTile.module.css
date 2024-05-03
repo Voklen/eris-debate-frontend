@@ -1,5 +1,5 @@
 .add {
-  border: 3px dotted var(--muted-foreground);
+  border: 3px dotted var(--muted);
 }
 
 .add > div,
@@ -9,7 +9,7 @@
 
 .add > div {
   font-size: 200%;
-  color: var(--muted-foreground);
+  color: var(--muted);
   text-align: center;
 }
 
