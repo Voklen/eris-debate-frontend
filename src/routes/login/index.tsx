@@ -1,30 +1,27 @@
 import { Show } from "solid-js";
 import { type SetStoreFunction, createStore } from "solid-js/store";
 import { Icons } from "~/components/Icons";
-import { AccountExistsError } from "~/utils/errors";
+import { AccountNotExistsError, IncorrectPasswordError } from "~/utils/errors";
 import { getFormData, randomPlaceholder } from "~/utils/funcs";
-import styles from "./Signup.module.css";
+import styles from "./Login.module.css";
 
 const emptyFormData = {
 	email: "",
 	password: "",
-	confirmPassword: "",
 };
-type SignupFormData = typeof emptyFormData;
-type SignupFormKey = keyof SignupFormData;
 const emptyErrorMessages = {
 	email: "",
 	password: "",
 };
 type ErrorMessagesStoreSetter = SetStoreFunction<typeof emptyErrorMessages>;
 
-export default function Signup() {
+export default function Login() {
 	const [errorMessages, setErrorMessages] = createStore(emptyErrorMessages);
 	const onSubmit = (e: SubmitEvent) => submitForm(e, setErrorMessages);
 	return (
 		<main class={styles.main}>
 			<form class={`${styles.form} card`} onSubmit={onSubmit}>
-				<h1>Signup</h1>
+				<h1>Login</h1>
 				<label for="email">Email</label>
 				<input
 					type="email"
@@ -43,28 +40,14 @@ export default function Signup() {
 					type="password"
 					name="password"
 					id="password"
-					minLength={8}
-					pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*"
+					onInput={() => setErrorMessages("password", "")}
 					required
 				/>
-				<label for="confirm-password">Confirm password</label>
-				<input
-					type="password"
-					id="confirm-password"
-					name="confirmPassword"
-					minLength={8}
-					required
-				/>
-				<br />
-				<p>Password must contain at least:</p>
-				<ul>
-					<li>8 characters</li>
-					<li>1 lower case letter</li>
-					<li>1 upper case letter</li>
-					<li>1 number</li>
-				</ul>
+				<Show when={errorMessages.password}>
+					<p class="error">{errorMessages.password}</p>
+				</Show>
 				<button type="submit">
-					<span>Submit</span>
+					<span>Login</span>
 					<Icons.spinner />
 				</button>
 			</form>
@@ -81,39 +64,37 @@ async function submitForm(
 	if (button == null) return;
 	button.setAttribute("disabled", "disabled");
 	try {
-		const token = await sendSignupRequest(event);
+		await sendLoginRequest(event);
+		window.location.href = "/";
 	} catch (e) {
-		if (e instanceof AccountExistsError) {
+		if (e instanceof AccountNotExistsError) {
 			errorMessages("email", e.message);
+		}
+		if (e instanceof IncorrectPasswordError) {
+			errorMessages("password", e.message);
 		}
 	} finally {
 		button.removeAttribute("disabled");
 	}
 }
 
-async function sendSignupRequest(event: SubmitEvent): Promise<number> {
+async function sendLoginRequest(event: SubmitEvent) {
 	const formData = getFormData(event, emptyFormData);
-	//TODO Improve error handling
-	if (formData.password !== formData.confirmPassword) return 0;
-
-	const { confirmPassword, ...cleanFormData } = formData;
-	const res = await fetch("http://127.0.0.1:9000/account/signup", {
+	const res = await fetch("http://127.0.0.1:9000/account/login", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
 		},
-		body: JSON.stringify(cleanFormData),
+		body: JSON.stringify(formData),
 	});
+	const text = await res.text();
 	switch (res.status) {
 		case 200:
-			break;
-		// biome-ignore lint/suspicious/noFallthroughSwitchClause: We want any unknown cases to activate the default case instead of silently breaking
+			return;
 		case 400:
-			if ((await res.text()) === "An account with that email already exists")
-				throw new AccountExistsError();
-		default:
-			throw new Error(`Unknown error ${res.status}: ${res.text()}`);
+			if (text === "An account with this email does not exist")
+				throw new AccountNotExistsError();
+			if (text === "Incorrect password") throw new IncorrectPasswordError();
 	}
-	const { token }: { token: number } = await res.json();
-	return token;
+	throw new Error(`Unknown error ${res.status}: ${text}`);
 }
