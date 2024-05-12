@@ -80,11 +80,12 @@ async function submitForm(
 
 async function sendLoginRequest(event: SubmitEvent) {
 	const formData = getFormData(event, emptyFormData);
-	const res = await fetch("http://127.0.0.1:9000/account/login", {
+	const res = await fetch("http://127.0.0.1:9000/login", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
 		},
+		credentials: "include",
 		body: JSON.stringify(formData),
 	});
 	const text = await res.text();

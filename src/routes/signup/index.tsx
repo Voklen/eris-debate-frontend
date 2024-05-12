@@ -97,11 +97,12 @@ async function sendSignupRequest(event: SubmitEvent): Promise<number> {
 	if (formData.password !== formData.confirmPassword) return 0;
 
 	const { confirmPassword, ...cleanFormData } = formData;
-	const res = await fetch("http://127.0.0.1:9000/account/signup", {
+	const res = await fetch("http://127.0.0.1:9000/signup", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
 		},
+		credentials: "include",
 		body: JSON.stringify(cleanFormData),
 	});
 	switch (res.status) {

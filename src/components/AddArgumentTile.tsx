@@ -46,12 +46,12 @@ export default function AddArgumentTile(props: Props) {
 
 async function sendArgumentToServer(parent: number, body: string) {
 	const requestBody = { parent, body };
-	console.log(`REQUEST: ${parent}`);
 	const res = await fetch("http://127.0.0.1:9000/arguments", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
 		},
+		credentials: "include",
 		body: JSON.stringify(requestBody),
 	});
 	if (res.status !== 200) {
