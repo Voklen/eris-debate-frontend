@@ -10,8 +10,6 @@ const emptyFormData = {
 	password: "",
 	confirmPassword: "",
 };
-type SignupFormData = typeof emptyFormData;
-type SignupFormKey = keyof SignupFormData;
 const emptyErrorMessages = {
 	email: "",
 	password: "",
@@ -81,7 +79,8 @@ async function submitForm(
 	if (button == null) return;
 	button.setAttribute("disabled", "disabled");
 	try {
-		const token = await sendSignupRequest(event);
+		await sendSignupRequest(event);
+		window.location.href = "/login";
 	} catch (e) {
 		if (e instanceof AccountExistsError) {
 			errorMessages("email", e.message);
@@ -91,7 +90,7 @@ async function submitForm(
 	}
 }
 
-async function sendSignupRequest(event: SubmitEvent): Promise<number> {
+async function sendSignupRequest(event: SubmitEvent) {
 	const formData = getFormData(event, emptyFormData);
 	//TODO Improve error handling
 	if (formData.password !== formData.confirmPassword) return 0;
@@ -107,7 +106,7 @@ async function sendSignupRequest(event: SubmitEvent): Promise<number> {
 	});
 	switch (res.status) {
 		case 200:
-			break;
+			return;
 		// biome-ignore lint/suspicious/noFallthroughSwitchClause: We want any unknown cases to activate the default case instead of silently breaking
 		case 400:
 			if ((await res.text()) === "An account with that email already exists")
@@ -115,6 +114,4 @@ async function sendSignupRequest(event: SubmitEvent): Promise<number> {
 		default:
 			throw new Error(`Unknown error ${res.status}: ${res.text()}`);
 	}
-	const { token }: { token: number } = await res.json();
-	return token;
 }
