@@ -61,8 +61,10 @@ async function fetchArg(id: number) {
 function getOtherArgId(side: Side, searchParams: Partial<Params>) {
 	switch (side) {
 		case "for":
-			return searchParams.against ? Number.parseInt(searchParams.against) : 0;
+			if (!searchParams.against) return;
+			return Number.parseInt(searchParams.against);
 		case "against":
-			return searchParams.for ? Number.parseInt(searchParams.for) : 0;
+			if (!searchParams.for) return;
+			return Number.parseInt(searchParams.for);
 	}
 }

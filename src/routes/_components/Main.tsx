@@ -1,5 +1,4 @@
 import { Title } from "@solidjs/meta";
-import { createSignal } from "solid-js";
 import Stack from "~/components/Stack";
 import type { Topic } from "~/utils/types";
 import styles from "./Main.module.css";
