@@ -11,7 +11,7 @@
   gap: 5rem;
 }
 
-.nav a {
+.header a {
   font-size: 120%;
   color: var(--forground);
   text-decoration: none;
@@ -19,12 +19,12 @@
   outline-offset: 4px;
 }
 
-.nav a:hover,
-.nav a:focus {
+.header a:hover,
+.header a:focus {
   border-color: var(--muted);
 }
 
-.buttonsContainer {
+.headerEnd {
   flex-grow: 1;
   display: flex;
   justify-content: flex-end;
@@ -36,4 +36,15 @@
   color: var(--foreground);
   background: var(--background);
   border-color: var(--primary);
+}
+
+#profileUsername {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border: 0;
+}
+
+#profileUsername img {
+  border-radius: 50%;
 }

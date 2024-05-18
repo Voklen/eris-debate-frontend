@@ -1,17 +1,19 @@
 import { Show } from "solid-js";
 import { type SetStoreFunction, createStore } from "solid-js/store";
 import { Icons } from "~/components/Icons";
-import { AccountExistsError } from "~/utils/errors";
+import { EmailInUseError, UsernameInUseError } from "~/utils/errors";
 import { getFormData, randomPlaceholder } from "~/utils/funcs";
 import styles from "./Signup.module.css";
 
 const emptyFormData = {
 	email: "",
+	username: "",
 	password: "",
 	confirmPassword: "",
 };
 const emptyErrorMessages = {
 	email: "",
+	username: "",
 	password: "",
 };
 type ErrorMessagesStoreSetter = SetStoreFunction<typeof emptyErrorMessages>;
@@ -36,13 +38,25 @@ export default function Signup() {
 				<Show when={errorMessages.email}>
 					<p class="error">{errorMessages.email}</p>
 				</Show>
+				<label for="username">Username</label>
+				<input
+					type="text"
+					name="username"
+					id="username"
+					onInput={() => setErrorMessages("username", "")}
+					classList={{ errorInput: !!errorMessages.username }}
+					required
+				/>
+				<Show when={errorMessages.username}>
+					<p class="error">{errorMessages.username}</p>
+				</Show>
 				<label for="password">Password</label>
 				<input
 					type="password"
 					name="password"
 					id="password"
 					minLength={8}
-					pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*"
+					// pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*"
 					required
 				/>
 				<label for="confirm-password">Confirm password</label>
@@ -82,8 +96,11 @@ async function submitForm(
 		await sendSignupRequest(event);
 		window.location.href = "/login";
 	} catch (e) {
-		if (e instanceof AccountExistsError) {
+		if (e instanceof EmailInUseError) {
 			errorMessages("email", e.message);
+		}
+		if (e instanceof UsernameInUseError) {
+			errorMessages("username", e.message);
 		}
 	} finally {
 		button.removeAttribute("disabled");
@@ -104,14 +121,17 @@ async function sendSignupRequest(event: SubmitEvent) {
 		credentials: "include",
 		body: JSON.stringify(cleanFormData),
 	});
+	const bodyText = res.text();
 	switch (res.status) {
 		case 200:
 			return;
 		// biome-ignore lint/suspicious/noFallthroughSwitchClause: We want any unknown cases to activate the default case instead of silently breaking
 		case 400:
-			if ((await res.text()) === "An account with that email already exists")
-				throw new AccountExistsError();
+			if ((await bodyText) === "An account with that email already exists")
+				throw new EmailInUseError();
+			if ((await bodyText) === "An account with that username already exists")
+				throw new UsernameInUseError();
 		default:
-			throw new Error(`Unknown error ${res.status}: ${res.text()}`);
+			throw new Error(`Unknown error ${res.status}: ${await bodyText}`);
 	}
 }

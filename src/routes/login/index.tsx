@@ -88,14 +88,19 @@ async function sendLoginRequest(event: SubmitEvent) {
 		credentials: "include",
 		body: JSON.stringify(formData),
 	});
-	const text = await res.text();
 	switch (res.status) {
-		case 200:
+		case 200: {
+			const json = await res.json();
+			localStorage.setItem("username", json.username);
 			return;
-		case 400:
+		}
+		case 400: {
+			const text = await res.text();
 			if (text === "An account with this email does not exist")
 				throw new AccountNotExistsError();
 			if (text === "Incorrect password") throw new IncorrectPasswordError();
+			throw new Error(`Unknown error 400: ${text}`);
+		}
 	}
-	throw new Error(`Unknown error ${res.status}: ${text}`);
+	throw new Error(`Unknown error ${res.status}: ${await res.text()}`);
 }

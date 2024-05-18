@@ -1,6 +1,12 @@
-export class AccountExistsError extends Error {
+export class EmailInUseError extends Error {
 	constructor() {
 		super("An account with that email already exists");
+	}
+}
+
+export class UsernameInUseError extends Error {
+	constructor() {
+		super("An account with that username already exists");
 	}
 }
 
