@@ -56,7 +56,7 @@ export default function Signup() {
 					name="password"
 					id="password"
 					minLength={8}
-					// pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*"
+					pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*"
 					required
 				/>
 				<label for="confirm-password">Confirm password</label>
