@@ -2,7 +2,7 @@ import { Show, createSignal, onMount } from "solid-js";
 import { generateProfilePic } from "~/utils/profilePic";
 import styles from "./profile.module.css";
 
-export default function Home() {
+export default function Profile() {
 	const [username, setUsername] = createSignal<string | null>("");
 	onMount(() => setUsername(localStorage.getItem("username")));
 

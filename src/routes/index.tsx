@@ -1,30 +1,50 @@
-import { type Params, useSearchParams } from "@solidjs/router";
-import { Match, Switch, createResource } from "solid-js";
-import type { Topic } from "~/utils/types";
-import { Main } from "./_components/Main";
+import { For, Match, Switch, createResource } from "solid-js";
+import styles from "./home.module.css";
 
 export default function Home() {
-	const [searchParams, _setSearchParams] = useSearchParams();
-	const [topic] = createResource(searchParams, fetchTopic);
-
+	const [topics] = createResource(fetchTopics);
 	return (
-		<Switch>
-			<Match when={topic.error}>
-				<p class="info"> Error: {topic.error}</p>
-			</Match>
-			<Match when={topic()}>
-				<Main topic={topic()!} />
-			</Match>
-		</Switch>
+		<main id={styles.mainList}>
+			<h1>Select a topic</h1>
+			<p>
+				Pick any topic and view the arguments for and against it (and even add
+				your own)
+			</p>
+			<Switch>
+				<Match when={topics.error}>
+					<p class="info"> Error: {topics.error}</p>
+				</Match>
+				<Match when={topics()}>
+					<For each={topics()}>
+						{(topic) => {
+							return (
+								<a href={"/topic?id=" + topic.id}>
+									<div class="card">
+										<p>{topic.name}</p>
+									</div>
+								</a>
+							);
+						}}
+					</For>
+				</Match>
+			</Switch>
+		</main>
 	);
 }
 
-async function fetchTopic(searchParams: Partial<Params>) {
-	const id = searchParams.id;
-	if (!id) {
-		//TODO make a topic selection page at root and redirect there
-		window.location.href = "/login";
+type BasicTopic = {
+	name: string;
+	id: number;
+};
+
+async function fetchTopics() {
+	const res = await fetch("http://127.0.0.1:9000/topics");
+	switch (res.status) {
+		case 200:
+			break;
+		default:
+			throw new Error(`Unknown error ${res.status}: ${await res.text()}`);
 	}
-	const res = await fetch(`http://127.0.0.1:9000/topic?id=${id}`);
-	return (await res.json()) as Topic;
+	const args: { topics: BasicTopic[] } = await res.json();
+	return args.topics;
 }

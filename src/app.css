@@ -89,6 +89,7 @@ button:active {
 .card {
   padding: 20px;
   border: 1px solid var(--ring);
+  border-radius: 1rem;
   background: var(--background);
   box-shadow: var(--shadow);
 }

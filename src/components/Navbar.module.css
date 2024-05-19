@@ -19,8 +19,8 @@
   outline-offset: 4px;
 }
 
-.header a:hover,
-.header a:focus {
+.nav a:hover,
+.nav a:focus {
   border-color: var(--muted);
 }
 
