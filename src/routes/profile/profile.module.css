@@ -1,0 +1,16 @@
+#profileUsername {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: fit-content;
+
+  font-size: 120%;
+  color: var(--forground);
+  text-decoration: none;
+  outline-offset: 4px;
+}
+
+#profileUsername img {
+  border-radius: 50%;
+}
