@@ -1,11 +1,18 @@
-import { type Params, useSearchParams } from "@solidjs/router";
+import {
+	type Params,
+	useNavigate,
+	useSearchParams,
+	Navigator,
+} from "@solidjs/router";
 import { Match, Switch, createResource } from "solid-js";
 import type { Topic } from "~/utils/types";
 import { Main } from "./_components/Main";
 
 export default function TopicPage() {
+	const fetchTopicOrRedirect = (e: Partial<Params>) =>
+		fetchTopic(e, useNavigate());
 	const [searchParams, _setSearchParams] = useSearchParams();
-	const [topic] = createResource(searchParams, fetchTopic);
+	const [topic] = createResource(searchParams, fetchTopicOrRedirect);
 
 	return (
 		<Switch>
@@ -19,10 +26,10 @@ export default function TopicPage() {
 	);
 }
 
-async function fetchTopic(searchParams: Partial<Params>) {
+async function fetchTopic(searchParams: Partial<Params>, navigate: Navigator) {
 	const id = searchParams.id;
 	if (!id) {
-		window.location.href = "/";
+		navigate("/");
 	}
 	const res = await fetch(`http://127.0.0.1:9000/topic?id=${id}`);
 	return (await res.json()) as Topic;

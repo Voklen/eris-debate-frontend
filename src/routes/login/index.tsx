@@ -1,3 +1,5 @@
+import { Navigator } from "@solidjs/router";
+import { useNavigate } from "@solidjs/router";
 import { Show } from "solid-js";
 import { type SetStoreFunction, createStore } from "solid-js/store";
 import { Icons } from "~/components/Icons";
@@ -16,8 +18,10 @@ const emptyErrorMessages = {
 type ErrorMessagesStoreSetter = SetStoreFunction<typeof emptyErrorMessages>;
 
 export default function Login() {
+	const navigate = useNavigate();
 	const [errorMessages, setErrorMessages] = createStore(emptyErrorMessages);
-	const onSubmit = (e: SubmitEvent) => submitForm(e, setErrorMessages);
+	const onSubmit = (e: SubmitEvent) =>
+		submitForm(e, setErrorMessages, navigate);
 	return (
 		<main class={styles.main}>
 			<form class={`${styles.form} card`} onSubmit={onSubmit}>
@@ -58,6 +62,7 @@ export default function Login() {
 async function submitForm(
 	event: SubmitEvent,
 	errorMessages: ErrorMessagesStoreSetter,
+	navigate: Navigator,
 ) {
 	event.preventDefault();
 	const button = event.submitter;
@@ -65,7 +70,7 @@ async function submitForm(
 	button.setAttribute("disabled", "disabled");
 	try {
 		await sendLoginRequest(event);
-		window.location.href = "/";
+		navigate("/");
 	} catch (e) {
 		if (e instanceof AccountNotExistsError) {
 			errorMessages("email", e.message);
