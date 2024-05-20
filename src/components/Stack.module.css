@@ -7,4 +7,15 @@
 .stack > div {
   cursor: pointer;
   vertical-align: middle;
+  text-align: start;
+}
+
+.forSelected {
+  border-width: 2px;
+  border-color: #e260a7;
+}
+
+.againstSelected {
+  border-width: 2px;
+  border-color: #5fdf67;
 }

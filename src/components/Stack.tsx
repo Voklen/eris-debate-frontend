@@ -1,10 +1,8 @@
 import { type Params, useSearchParams } from "@solidjs/router";
 import { For, Suspense, createResource } from "solid-js";
-import type { Argument, TopArgument } from "~/utils/types";
+import type { Argument, Side, TopArgument } from "~/utils/types";
 import AddArgumentTile from "./AddArgumentTile";
 import styles from "./Stack.module.css";
-
-type Side = "for" | "against";
 
 type Props = {
 	data: TopArgument;
@@ -13,7 +11,7 @@ type Props = {
 
 export default function Stack(props: Props) {
 	const [searchParams, setSearchParams] = useSearchParams();
-	const otherArgId = () => getOtherArgId(props.side, searchParams);
+	const otherArgId = () => getOtherArgId(props.side, searchParams) ?? 0;
 	const [args, { mutate }] = createResource(otherArgId, fetchArg);
 
 	function appendArg(arg: Argument) {
@@ -35,8 +33,17 @@ export default function Stack(props: Props) {
 				>
 					{(arg) => {
 						const argSelected = () => setSearchParams({ [props.side]: arg.id });
+						const id = arg.id.toString();
 						return (
-							<div onClick={argSelected} onKeyDown={argSelected} class="card">
+							<div
+								onClick={argSelected}
+								onKeyDown={argSelected}
+								classList={{
+									card: true,
+									[styles.forSelected]: searchParams.for === id,
+									[styles.againstSelected]: searchParams.against === id,
+								}}
+							>
 								{arg.body}
 							</div>
 						);

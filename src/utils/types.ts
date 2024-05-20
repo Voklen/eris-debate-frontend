@@ -1,3 +1,5 @@
+export type Side = "for" | "against";
+
 export type Argument = {
 	id: number;
 	body: string;
