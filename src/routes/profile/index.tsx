@@ -1,9 +1,11 @@
+import { type Navigator, useNavigate } from "@solidjs/router";
 import { Show, createSignal, onMount } from "solid-js";
 import { generateProfilePic } from "~/utils/profilePic";
 import styles from "./profile.module.css";
 
 export default function Profile() {
 	const [username, setUsername] = createSignal<string | null>("");
+	const navigate = useNavigate();
 	onMount(() => setUsername(localStorage.getItem("username")));
 
 	return (
@@ -19,16 +21,17 @@ export default function Profile() {
 					{username()}
 				</a>
 			</Show>
-			<button type="button" onClick={logout}>
+			<button type="button" onClick={() => logout(navigate)}>
 				Log out
 			</button>
 		</>
 	);
 }
 
-function logout() {
+async function logout(navigate: Navigator) {
 	localStorage.removeItem("username");
-	sendLogoutRequest();
+	await sendLogoutRequest();
+	navigate("/");
 }
 
 async function sendLogoutRequest() {
