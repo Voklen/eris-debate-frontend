@@ -1,8 +1,16 @@
+import type { Accessor } from "solid-js";
+
 export type Side = "for" | "against";
 
 export type Argument = {
 	id: number;
 	body: string;
+};
+
+export type SubmitState = "success" | "loading" | "error";
+
+export type ArgumentTile = Argument & {
+	state: Accessor<SubmitState>;
 };
 
 export type TopArgument = {

@@ -1,6 +1,12 @@
 import { type Params, useSearchParams } from "@solidjs/router";
-import { For, Suspense, createResource } from "solid-js";
-import type { Argument, Side, TopArgument } from "~/utils/types";
+import { For, Suspense, createResource, createSignal } from "solid-js";
+import type {
+	Argument,
+	ArgumentTile,
+	Side,
+	SubmitState,
+	TopArgument,
+} from "~/utils/types";
 import AddArgumentTile from "./AddArgumentTile";
 import styles from "./Stack.module.css";
 
@@ -14,9 +20,12 @@ export default function Stack(props: Props) {
 	const otherArgId = () => getOtherArgId(props.side, searchParams) ?? 0;
 	const [args, { mutate }] = createResource(otherArgId, fetchArg);
 
-	function appendArg(arg: Argument) {
+	function appendArg(arg: ArgumentTile) {
 		mutate((args) => {
-			if (args === undefined) return [...props.data.arguments, arg];
+			if (args === undefined) {
+				const defaultArgs = props.data.arguments.map(toTile);
+				return [...defaultArgs, arg];
+			}
 			return [...args, arg];
 		});
 	}
@@ -26,7 +35,7 @@ export default function Stack(props: Props) {
 			<h2>{props.data.title}</h2>
 			<Suspense>
 				<For
-					each={args() ?? props.data.arguments}
+					each={args() ?? props.data.arguments.map(toTile)}
 					fallback={
 						<p class="info">No responces yet, go ahead and make the first!</p>
 					}
@@ -42,6 +51,7 @@ export default function Stack(props: Props) {
 									card: true,
 									[styles.forSelected]: searchParams.for === id,
 									[styles.againstSelected]: searchParams.against === id,
+									[arg.state()]: true,
 								}}
 							>
 								{arg.body}
@@ -62,7 +72,8 @@ async function fetchArg(id: number) {
 	if (id === 0) return;
 	const res = await fetch(`http://127.0.0.1:9000/arguments?id=${id}`);
 	const args: { args: Argument[] } = await res.json();
-	return args.args;
+	const argTiles: ArgumentTile[] = args.args.map(toTile);
+	return argTiles;
 }
 
 function getOtherArgId(side: Side, searchParams: Partial<Params>) {
@@ -74,4 +85,9 @@ function getOtherArgId(side: Side, searchParams: Partial<Params>) {
 			if (!searchParams.for) return;
 			return Number.parseInt(searchParams.for);
 	}
+}
+
+function toTile(argument: Argument): ArgumentTile {
+	const state = createSignal<SubmitState>("success")[0];
+	return { ...argument, state: state };
 }

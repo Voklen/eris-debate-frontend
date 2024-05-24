@@ -1,10 +1,11 @@
 import { Show, createSignal } from "solid-js";
-import type { Argument } from "~/utils/types";
+import toast from "solid-toast";
+import type { ArgumentTile, SubmitState } from "~/utils/types";
 import styles from "./AddArgumentTile.module.css";
 
 type Props = {
 	opposingID: number;
-	appendAddedArg: (arg: Argument) => void;
+	appendAddedArg: (arg: ArgumentTile) => void;
 };
 
 export default function AddArgumentTile(props: Props) {
@@ -12,11 +13,25 @@ export default function AddArgumentTile(props: Props) {
 	const [text, setText] = createSignal("");
 
 	const openInput = () => setIsCreating(true);
-	const submit = () => {
-		// const staticText = text();
-		props.appendAddedArg({ id: 0, body: text() });
-		sendArgumentToServer(props.opposingID, text());
+	const submit = async () => {
+		const res = sendArgumentToServer(props.opposingID, text());
+		const [state, setState] = createSignal<SubmitState>("loading");
+		const arg = {
+			id: 0,
+			body: text(),
+			state: state,
+		};
+		props.appendAddedArg(arg);
 		setText("");
+		try {
+			await res;
+			setState("success");
+		} catch (e) {
+			if (e instanceof Error) {
+				setState("error");
+				toast.error(e.message);
+			}
+		}
 	};
 	return (
 		<div class={styles.add} classList={{ [styles.clicked]: isCreating() }}>
@@ -55,6 +70,6 @@ async function sendArgumentToServer(parent: number, body: string) {
 		body: JSON.stringify(requestBody),
 	});
 	if (res.status !== 200) {
-		console.log("Non 200 status code");
+		throw new Error(`${res.status}: ${await res.text()}`);
 	}
 }
