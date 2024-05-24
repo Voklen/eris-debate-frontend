@@ -1,8 +1,8 @@
 import {
+	type Navigator,
 	type Params,
 	useNavigate,
 	useSearchParams,
-	Navigator,
 } from "@solidjs/router";
 import { Match, Switch, createResource } from "solid-js";
 import type { Topic } from "~/utils/types";

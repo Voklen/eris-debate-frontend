@@ -18,7 +18,7 @@ export default function Home() {
 					<For each={topics()}>
 						{(topic) => {
 							return (
-								<a href={"/topic?id=" + topic.id}>
+								<a href={`/topic?id=${topic.id}`}>
 									<div class="card">
 										<p>{topic.name}</p>
 									</div>

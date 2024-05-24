@@ -1,4 +1,4 @@
-import { Navigator } from "@solidjs/router";
+import type { Navigator } from "@solidjs/router";
 import { useNavigate } from "@solidjs/router";
 import { Show } from "solid-js";
 import { type SetStoreFunction, createStore } from "solid-js/store";
