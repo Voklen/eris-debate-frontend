@@ -1,37 +1,37 @@
-import { type Navigator, useNavigate } from "@solidjs/router";
-import { Show, createSignal, onMount } from "solid-js";
+import { useNavigate } from "@solidjs/router";
+import { Show } from "solid-js";
+import { useAuth } from "~/providers/auth";
 import { generateProfilePic } from "~/utils/profilePic";
 import styles from "./profile.module.css";
 
 export default function Profile() {
-	const [username, setUsername] = createSignal<string | null>("");
+	const [user, { logout }] = useAuth();
 	const navigate = useNavigate();
-	onMount(() => setUsername(localStorage.getItem("username")));
 
+	async function submitLogout() {
+		localStorage.removeItem("username");
+		await sendLogoutRequest();
+		logout();
+		navigate("/");
+	}
 	return (
 		<>
-			<Show when={username()}>
+			<Show when={user()}>
 				{/* When signed in */}
 				<a href="/profile" id={styles.profileUsername}>
 					<img
-						src={generateProfilePic(username()!)}
+						src={generateProfilePic(user()!.username)}
 						alt="Profile"
 						height={50}
 					/>
-					{username()}
+					{user()?.username}
 				</a>
 			</Show>
-			<button type="button" onClick={() => logout(navigate)}>
+			<button type="button" onClick={() => submitLogout()}>
 				Log out
 			</button>
 		</>
 	);
-}
-
-async function logout(navigate: Navigator) {
-	localStorage.removeItem("username");
-	await sendLogoutRequest();
-	navigate("/");
 }
 
 async function sendLogoutRequest() {
