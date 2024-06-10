@@ -1,10 +1,10 @@
-import { Match, Switch, createSignal, onMount } from "solid-js";
+import { Match, Switch } from "solid-js";
+import { useAuth } from "~/providers/auth";
 import { generateProfilePic } from "~/utils/profilePic";
 import styles from "./Navbar.module.css";
 
 export default function Navbar() {
-	const [username, setUsername] = createSignal<string | null>("");
-	onMount(() => setUsername(localStorage.getItem("username")));
+	const [user, _] = useAuth();
 
 	return (
 		<header class={styles.header}>
@@ -14,7 +14,7 @@ export default function Navbar() {
 			</nav>
 			<div class={styles.headerEnd}>
 				<Switch>
-					<Match when={username() === null}>
+					<Match when={user() === null}>
 						{/* When not signed in */}
 						<>
 							<a href="/login">
@@ -27,12 +27,12 @@ export default function Navbar() {
 							</a>
 						</>
 					</Match>
-					<Match when={username()}>
+					<Match when={user()}>
 						{/* When signed in */}
 						<a href="/profile" id={styles.profileUsername}>
-							{username()}
+							{user()?.username}
 							<img
-								src={generateProfilePic(username()!)}
+								src={generateProfilePic(user()!.username)}
 								alt="Profile"
 								height={50}
 							/>

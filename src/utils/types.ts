@@ -24,3 +24,7 @@ export type Topic = {
 	for: TopArgument;
 	against: TopArgument;
 };
+
+export type User = {
+	username: string;
+};

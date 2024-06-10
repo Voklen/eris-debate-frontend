@@ -1,10 +1,11 @@
-import type { Navigator } from "@solidjs/router";
 import { useNavigate } from "@solidjs/router";
 import { Show } from "solid-js";
 import { type SetStoreFunction, createStore } from "solid-js/store";
 import { Icons } from "~/components/Icons";
+import { useAuth } from "~/providers/auth";
 import { AccountNotExistsError, IncorrectPasswordError } from "~/utils/errors";
 import { getFormData, randomPlaceholder } from "~/utils/funcs";
+import type { User } from "~/utils/types";
 import styles from "./Login.module.css";
 
 const emptyFormData = {
@@ -18,10 +19,16 @@ const emptyErrorMessages = {
 type ErrorMessagesStoreSetter = SetStoreFunction<typeof emptyErrorMessages>;
 
 export default function Login() {
+	const [_, { login }] = useAuth();
 	const navigate = useNavigate();
 	const [errorMessages, setErrorMessages] = createStore(emptyErrorMessages);
-	const onSubmit = (e: SubmitEvent) =>
-		submitForm(e, setErrorMessages, navigate);
+	const onSubmit = async (e: SubmitEvent) => {
+		const user = await submitForm(e, setErrorMessages);
+		if (user === undefined) return;
+		localStorage.setItem("username", user.username);
+		login(user);
+		navigate("/");
+	};
 	return (
 		<main class={styles.main}>
 			<form class={`${styles.form} card`} onSubmit={onSubmit}>
@@ -62,15 +69,13 @@ export default function Login() {
 async function submitForm(
 	event: SubmitEvent,
 	errorMessages: ErrorMessagesStoreSetter,
-	navigate: Navigator,
 ) {
 	event.preventDefault();
 	const button = event.submitter;
 	if (button == null) return;
 	button.setAttribute("disabled", "disabled");
 	try {
-		await sendLoginRequest(event);
-		navigate("/");
+		return await sendLoginRequest(event);
 	} catch (e) {
 		if (e instanceof AccountNotExistsError) {
 			errorMessages("email", e.message);
@@ -96,8 +101,7 @@ async function sendLoginRequest(event: SubmitEvent) {
 	switch (res.status) {
 		case 200: {
 			const json = await res.json();
-			localStorage.setItem("username", json.username);
-			return;
+			return json as User;
 		}
 		case 400: {
 			const text = await res.text();
