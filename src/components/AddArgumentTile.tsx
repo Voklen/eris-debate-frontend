@@ -1,5 +1,7 @@
+import { useNavigate } from "@solidjs/router";
 import { Show, createSignal } from "solid-js";
 import toast from "solid-toast";
+import { useAuth } from "~/providers/auth";
 import type { ArgumentTile, SubmitState } from "~/utils/types";
 import styles from "./AddArgumentTile.module.css";
 
@@ -11,8 +13,16 @@ type Props = {
 export default function AddArgumentTile(props: Props) {
 	const [isCreating, setIsCreating] = createSignal(false);
 	const [text, setText] = createSignal("");
+	const [user, _] = useAuth();
+	const navigate = useNavigate();
 
-	const openInput = () => setIsCreating(true);
+	const openInput = () => {
+		if (user() == null) {
+			navigate("/signup");
+			return;
+		}
+		setIsCreating(true);
+	};
 	const submit = async () => {
 		const res = sendArgumentToServer(props.opposingID, text());
 		const [state, setState] = createSignal<SubmitState>("loading");
