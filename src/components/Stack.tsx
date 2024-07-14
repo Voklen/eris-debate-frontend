@@ -17,7 +17,7 @@ type Props = {
 
 export default function Stack(props: Props) {
 	const [searchParams, setSearchParams] = useSearchParams();
-	const otherArgId = () => getOtherArgId(props.side, searchParams) ?? 0;
+	const otherArgId = () => getOtherArgId(props.side, searchParams);
 	const [args, { mutate }] = createResource(otherArgId, fetchArg);
 
 	function appendArg(arg: ArgumentTile) {
