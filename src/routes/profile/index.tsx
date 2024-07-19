@@ -1,6 +1,7 @@
 import { useNavigate } from "@solidjs/router";
 import { Show } from "solid-js";
 import { useAuth } from "~/providers/auth";
+import { backendURL } from "~/utils/config";
 import { generateProfilePic } from "~/utils/profilePic";
 import styles from "./profile.module.css";
 
@@ -35,7 +36,7 @@ export default function Profile() {
 }
 
 async function sendLogoutRequest() {
-	const res = await fetch("http://127.0.0.1:9000/logout", {
+	const res = await fetch(`${backendURL}/logout`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",

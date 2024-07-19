@@ -2,6 +2,7 @@ import { useNavigate } from "@solidjs/router";
 import { Show, createSignal } from "solid-js";
 import toast from "solid-toast";
 import { useAuth } from "~/providers/auth";
+import { backendURL } from "~/utils/config";
 import type { ArgumentTile, SubmitState } from "~/utils/types";
 import styles from "./AddArgumentTile.module.css";
 
@@ -71,7 +72,7 @@ export default function AddArgumentTile(props: Props) {
 
 async function sendArgumentToServer(parent: number, body: string) {
 	const requestBody = { parent, body };
-	const res = await fetch("http://127.0.0.1:9000/arguments", {
+	const res = await fetch(`${backendURL}/arguments`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",

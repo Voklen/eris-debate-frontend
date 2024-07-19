@@ -1,5 +1,6 @@
 import { type Params, useSearchParams } from "@solidjs/router";
 import { For, Suspense, createResource, createSignal } from "solid-js";
+import { backendURL } from "~/utils/config";
 import type {
 	Argument,
 	ArgumentTile,
@@ -70,7 +71,7 @@ export default function Stack(props: Props) {
 
 async function fetchArg(id: number) {
 	if (id === 0) return;
-	const res = await fetch(`http://127.0.0.1:9000/arguments?id=${id}`);
+	const res = await fetch(`${backendURL}/arguments?id=${id}`);
 	const args: { args: Argument[] } = await res.json();
 	const argTiles: ArgumentTile[] = args.args.map(toTile);
 	return argTiles;

@@ -5,6 +5,7 @@ import {
 	useSearchParams,
 } from "@solidjs/router";
 import { Match, Switch, createResource } from "solid-js";
+import { backendURL } from "~/utils/config";
 import type { Topic } from "~/utils/types";
 import { Main } from "./_components/Main";
 
@@ -31,6 +32,6 @@ async function fetchTopic(searchParams: Partial<Params>, navigate: Navigator) {
 	if (!id) {
 		navigate("/");
 	}
-	const res = await fetch(`http://127.0.0.1:9000/topic?id=${id}`);
+	const res = await fetch(`${backendURL}/topic?id=${id}`);
 	return (await res.json()) as Topic;
 }

@@ -3,6 +3,7 @@ import { Show } from "solid-js";
 import { type SetStoreFunction, createStore } from "solid-js/store";
 import { Icons } from "~/components/Icons";
 import { useAuth } from "~/providers/auth";
+import { backendURL } from "~/utils/config";
 import { AccountNotExistsError, IncorrectPasswordError } from "~/utils/errors";
 import { getFormData, randomPlaceholder } from "~/utils/funcs";
 import type { User } from "~/utils/types";
@@ -90,7 +91,7 @@ async function submitForm(
 
 async function sendLoginRequest(event: SubmitEvent) {
 	const formData = getFormData(event, emptyFormData);
-	const res = await fetch("http://127.0.0.1:9000/login", {
+	const res = await fetch(`${backendURL}/login`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",

@@ -2,6 +2,7 @@ import { type Navigator, useNavigate } from "@solidjs/router";
 import { Show } from "solid-js";
 import { type SetStoreFunction, createStore } from "solid-js/store";
 import { Icons } from "~/components/Icons";
+import { backendURL } from "~/utils/config";
 import { EmailInUseError, UsernameInUseError } from "~/utils/errors";
 import { getFormData, randomPlaceholder } from "~/utils/funcs";
 import styles from "./Signup.module.css";
@@ -117,7 +118,7 @@ async function sendSignupRequest(event: SubmitEvent) {
 	if (formData.password !== formData.confirmPassword) return 0;
 
 	const { confirmPassword, ...cleanFormData } = formData;
-	const res = await fetch("http://127.0.0.1:9000/signup", {
+	const res = await fetch(`${backendURL}/signup`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",

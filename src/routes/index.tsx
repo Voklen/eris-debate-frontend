@@ -1,4 +1,5 @@
 import { For, Match, Switch, createResource } from "solid-js";
+import { backendURL } from "~/utils/config";
 import styles from "./home.module.css";
 
 export default function Home() {
@@ -38,7 +39,7 @@ type BasicTopic = {
 };
 
 async function fetchTopics() {
-	const res = await fetch("http://127.0.0.1:9000/topics");
+	const res = await fetch(`${backendURL}/topics`);
 	switch (res.status) {
 		case 200:
 			break;
