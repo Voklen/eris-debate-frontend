@@ -26,7 +26,7 @@ export default function Login() {
 	const onSubmit = async (e: SubmitEvent) => {
 		const user = await submitForm(e, setErrorMessages);
 		if (user === undefined) return;
-		localStorage.setItem("username", user.username);
+		localStorage.setItem("user", JSON.stringify(user));
 		login(user);
 		navigate("/");
 	};

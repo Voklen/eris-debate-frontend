@@ -10,7 +10,7 @@ export default function Profile() {
 	const navigate = useNavigate();
 
 	async function submitLogout() {
-		localStorage.removeItem("username");
+		localStorage.removeItem("user");
 		await sendLogoutRequest();
 		logout();
 		navigate("/");

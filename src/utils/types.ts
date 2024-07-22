@@ -27,4 +27,5 @@ export type Topic = {
 
 export type User = {
 	username: string;
+	roles: string[];
 };
