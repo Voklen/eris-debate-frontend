@@ -8,6 +8,15 @@
   cursor: pointer;
   vertical-align: middle;
   text-align: start;
+  z-index: 0;
+}
+
+.stack button {
+  display: none;
+  font-size: 0.8rem;
+  padding: 5px;
+  border: none;
+  z-index: 1;
 }
 
 .forSelected {
@@ -18,4 +27,8 @@
 .againstSelected {
   border-width: 2px;
   border-color: #5fdf67;
+}
+
+.showRemoveButton button {
+  display: block;
 }

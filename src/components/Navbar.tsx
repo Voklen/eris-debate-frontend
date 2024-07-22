@@ -1,7 +1,7 @@
 import { Show, onMount } from "solid-js";
 import { useAuth } from "~/providers/auth";
 import { generateProfilePic } from "~/utils/profilePic";
-import type { User } from "~/utils/types";
+import { getUser } from "~/utils/user";
 import styles from "./Navbar.module.css";
 
 export default function Navbar() {
@@ -49,9 +49,4 @@ function LoginButtons() {
 			</a>
 		</>
 	);
-}
-
-function getUser(): User | null {
-	const user = localStorage.getItem("user");
-	return user ? JSON.parse(user) : null;
 }

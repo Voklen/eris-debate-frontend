@@ -1,5 +1,5 @@
 import { type Params, useSearchParams } from "@solidjs/router";
-import { For, Suspense, createResource, createSignal } from "solid-js";
+import { For, Suspense, createResource, createSignal, onMount } from "solid-js";
 import { backendURL } from "~/utils/config";
 import type {
 	Argument,
@@ -10,6 +10,8 @@ import type {
 } from "~/utils/types";
 import AddArgumentTile from "./AddArgumentTile";
 import styles from "./Stack.module.css";
+import toast from "solid-toast";
+import { isAdmin } from "~/utils/user";
 
 type Props = {
 	data: TopArgument;
@@ -20,6 +22,11 @@ export default function Stack(props: Props) {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const otherArgId = () => getOtherArgId(props.side, searchParams);
 	const [args, { mutate }] = createResource(otherArgId, fetchArg);
+	const [userIsAdmin, setUserIsAdmin] = createSignal(false);
+
+	onMount(() => {
+		setUserIsAdmin(isAdmin());
+	});
 
 	function appendArg(arg: ArgumentTile) {
 		mutate((args) => {
@@ -29,6 +36,15 @@ export default function Stack(props: Props) {
 			}
 			return [...args, arg];
 		});
+	}
+	async function removeArg(e: MouseEvent, id: number) {
+		try {
+			await sendDeleteArgRequest(e, id);
+		} catch (e) {
+			if (e instanceof Error) {
+				toast.error(e.message);
+			}
+		}
 	}
 
 	return (
@@ -44,6 +60,7 @@ export default function Stack(props: Props) {
 					{(arg) => {
 						const argSelected = () => setSearchParams({ [props.side]: arg.id });
 						const id = arg.id.toString();
+
 						return (
 							<div
 								onClick={argSelected}
@@ -53,9 +70,17 @@ export default function Stack(props: Props) {
 									[styles.forSelected]: searchParams.for === id,
 									[styles.againstSelected]: searchParams.against === id,
 									[arg.state()]: true,
+									[styles.showRemoveButton]: userIsAdmin(),
 								}}
 							>
 								{arg.body}
+								<br />
+								<button
+									type="button"
+									onClick={async (e) => removeArg(e, arg.id)}
+								>
+									Remove
+								</button>
 							</div>
 						);
 					}}
@@ -91,4 +116,20 @@ function getOtherArgId(side: Side, searchParams: Partial<Params>) {
 function toTile(argument: Argument): ArgumentTile {
 	const state = createSignal<SubmitState>("success")[0];
 	return { ...argument, state: state };
+}
+
+async function sendDeleteArgRequest(event: MouseEvent, id: number) {
+	event.stopPropagation();
+	const requestBody = { argument_id: id };
+	const res = await fetch(`${backendURL}/arguments`, {
+		method: "DELETE",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		credentials: "include",
+		body: JSON.stringify(requestBody),
+	});
+	if (res.status !== 200) {
+		throw new Error(`${res.status}: ${await res.text()}`);
+	}
 }
