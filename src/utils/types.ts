@@ -5,6 +5,7 @@ export type Side = "for" | "against";
 export type Argument = {
 	id: number;
 	body: string;
+	username: string;
 };
 
 export type SubmitState = "success" | "loading" | "error";

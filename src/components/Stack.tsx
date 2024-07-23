@@ -12,6 +12,7 @@ import AddArgumentTile from "./AddArgumentTile";
 import styles from "./Stack.module.css";
 import toast from "solid-toast";
 import { isAdmin } from "~/utils/user";
+import { generateProfilePic } from "~/utils/profilePic";
 
 type Props = {
 	data: TopArgument;
@@ -60,6 +61,10 @@ export default function Stack(props: Props) {
 					{(arg) => {
 						const argSelected = () => setSearchParams({ [props.side]: arg.id });
 						const id = arg.id.toString();
+						const [pic, setPic] = createSignal<string | undefined>(undefined);
+						onMount(() => {
+							setPic(generateProfilePic(arg.username));
+						});
 
 						return (
 							<div
@@ -73,8 +78,12 @@ export default function Stack(props: Props) {
 									[styles.showRemoveButton]: userIsAdmin(),
 								}}
 							>
-								{arg.body}
+								<p>{arg.body}</p>
 								<br />
+								<p class={styles.username}>
+									<img src={pic()} alt="Profile" height={40} />
+									{arg.username}
+								</p>
 								<button
 									type="button"
 									class={styles.removeButton}
