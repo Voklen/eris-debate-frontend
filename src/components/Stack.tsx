@@ -77,6 +77,7 @@ export default function Stack(props: Props) {
 								<br />
 								<button
 									type="button"
+									class={styles.removeButton}
 									onClick={async (e) => removeArg(e, arg.id)}
 								>
 									Remove

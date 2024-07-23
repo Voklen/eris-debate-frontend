@@ -11,14 +11,6 @@
   z-index: 0;
 }
 
-.stack button {
-  display: none;
-  font-size: 0.8rem;
-  padding: 5px;
-  border: none;
-  z-index: 1;
-}
-
 .forSelected {
   border-width: 2px;
   border-color: #e260a7;
@@ -27,6 +19,14 @@
 .againstSelected {
   border-width: 2px;
   border-color: #5fdf67;
+}
+
+.removeButton {
+  display: none;
+  font-size: 0.8rem;
+  padding: 5px;
+  border: none;
+  z-index: 1;
 }
 
 .showRemoveButton button {
