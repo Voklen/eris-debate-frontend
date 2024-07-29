@@ -81,7 +81,7 @@ export default function Stack(props: Props) {
 								<p>{arg.body}</p>
 								<br />
 								<p class={styles.username}>
-									<img src={pic()} alt="Profile" height={40} />
+									<img src={pic()} alt="Profile" height={30} />
 									{arg.username}
 								</p>
 								<button
