@@ -13,7 +13,7 @@ export default function Home() {
 			</p>
 			<Switch>
 				<Match when={topics.error}>
-					<p class="info"> Error: {topics.error}</p>
+					<p class="info"> Error: {topics.error.message}</p>
 				</Match>
 				<Match when={topics()}>
 					<For each={topics()}>

@@ -18,7 +18,7 @@ export default function TopicPage() {
 	return (
 		<Switch>
 			<Match when={topic.error}>
-				<p class="info"> Error: {topic.error}</p>
+				<p class="info"> Error: {topic.error.message}</p>
 			</Match>
 			<Match when={topic()}>
 				<Main topic={topic()!} />
