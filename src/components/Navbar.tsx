@@ -3,6 +3,7 @@ import { useAuth } from "~/providers/auth";
 import { generateProfilePic } from "~/utils/profilePic";
 import { getUser } from "~/utils/user";
 import styles from "./Navbar.module.css";
+import { useNavigate } from "@solidjs/router";
 
 export default function Navbar() {
 	const [user, { login }] = useAuth();
@@ -37,16 +38,20 @@ export default function Navbar() {
 }
 
 function LoginButtons() {
+	const navigate = useNavigate();
 	return (
 		<>
-			<a href="/login">
-				<button type="button" id={styles.login}>
-					Login
-				</button>
-			</a>
-			<a href="/signup">
-				<button type="button">Sign up</button>
-			</a>
+			<button
+				type="button"
+				role="link"
+				id={styles.login}
+				onClick={() => navigate("/login")}
+			>
+				Login
+			</button>
+			<button type="button" role="link" onClick={() => navigate("/signup")}>
+				Sign up
+			</button>
 		</>
 	);
 }

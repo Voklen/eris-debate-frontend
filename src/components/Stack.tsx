@@ -64,7 +64,10 @@ export default function Stack(props: Props) {
 						return (
 							<div
 								onClick={argSelected}
-								onKeyDown={argSelected}
+								onKeyDown={(e) => {
+									if (e.key === "Enter") argSelected();
+								}}
+								tabIndex={0}
 								classList={{
 									card: true,
 									[styles.forSelected]: searchParams.for === id,

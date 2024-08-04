@@ -49,7 +49,13 @@ export default function AddArgumentTile(props: Props) {
 			<Show
 				when={isCreating()}
 				fallback={
-					<div onClick={openInput} onKeyPress={openInput}>
+					<div
+						onClick={openInput}
+						onKeyDown={(e) => {
+							if (e.key === "Enter") openInput();
+						}}
+						tabIndex={0}
+					>
 						+
 					</div>
 				}
