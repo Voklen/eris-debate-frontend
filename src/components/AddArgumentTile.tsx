@@ -30,7 +30,6 @@ export default function AddArgumentTile(props: Props) {
 		const arg = {
 			id: 0,
 			body: text(),
-			username: user()!.username, // Earlier we redirected to `/signup` if `user()` was null. So we know it is not null
 			state: state,
 		};
 		props.appendAddedArg(arg);

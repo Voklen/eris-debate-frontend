@@ -21,17 +21,6 @@
   border-color: #5fdf67;
 }
 
-.username {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  color: var(--muted);
-}
-
-.username img {
-  border-radius: 50%;
-}
-
 .removeButton {
   display: none;
   font-size: 0.8rem;

@@ -1,5 +1,6 @@
 import { type Params, useSearchParams } from "@solidjs/router";
 import { For, Suspense, createResource, createSignal, onMount } from "solid-js";
+import toast from "solid-toast";
 import { backendURL } from "~/utils/config";
 import type {
 	Argument,
@@ -8,11 +9,9 @@ import type {
 	SubmitState,
 	TopArgument,
 } from "~/utils/types";
+import { isAdmin } from "~/utils/user";
 import AddArgumentTile from "./AddArgumentTile";
 import styles from "./Stack.module.css";
-import toast from "solid-toast";
-import { isAdmin } from "~/utils/user";
-import { generateProfilePic } from "~/utils/profilePic";
 
 type Props = {
 	data: TopArgument;
@@ -61,10 +60,6 @@ export default function Stack(props: Props) {
 					{(arg) => {
 						const argSelected = () => setSearchParams({ [props.side]: arg.id });
 						const id = arg.id.toString();
-						const [pic, setPic] = createSignal<string | undefined>(undefined);
-						onMount(() => {
-							setPic(generateProfilePic(arg.username));
-						});
 
 						return (
 							<div
@@ -79,11 +74,6 @@ export default function Stack(props: Props) {
 								}}
 							>
 								<p>{arg.body}</p>
-								<br />
-								<p class={styles.username}>
-									<img src={pic()} alt="Profile" height={30} />
-									{arg.username}
-								</p>
 								<button
 									type="button"
 									class={styles.removeButton}
