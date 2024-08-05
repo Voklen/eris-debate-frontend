@@ -9,11 +9,12 @@
 	},
 	"dependencies": {
 		"@solidjs/meta": "^0.29.4",
-		"@solidjs/router": "^0.13.6",
+		"@solidjs/router": "^0.14.1",
 		"@solidjs/start": "^1.0.6",
+		"lucide-solid": "^0.424.0",
 		"solid-js": "^1.8.19",
 		"solid-toast": "^0.5.0",
-		"vinxi": "^0.3.14"
+		"vinxi": "^0.4.1"
 	},
 	"engines": {
 		"node": ">=18"

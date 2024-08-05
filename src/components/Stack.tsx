@@ -1,4 +1,5 @@
 import { type Params, useSearchParams } from "@solidjs/router";
+import { PencilLine } from "lucide-solid";
 import { For, Suspense, createResource, createSignal, onMount } from "solid-js";
 import toast from "solid-toast";
 import { backendURL } from "~/utils/config";
@@ -59,6 +60,7 @@ export default function Stack(props: Props) {
 				>
 					{(arg) => {
 						const argSelected = () => setSearchParams({ [props.side]: arg.id });
+						const removeClicked = (e: MouseEvent) => removeArg(e, arg.id);
 						const id = arg.id.toString();
 
 						return (
@@ -77,13 +79,18 @@ export default function Stack(props: Props) {
 								}}
 							>
 								<p>{arg.body}</p>
-								<button
-									type="button"
-									class={styles.removeButton}
-									onClick={async (e) => removeArg(e, arg.id)}
-								>
-									Remove
-								</button>
+								<div class={styles.controlButtons}>
+									<button type="button" class={styles.editButton}>
+										<PencilLine />
+									</button>
+									<button
+										type="button"
+										class={styles.removeButton}
+										onClick={removeClicked}
+									>
+										Remove
+									</button>
+								</div>
 							</div>
 						);
 					}}

@@ -21,6 +21,17 @@
   border-color: #5fdf67;
 }
 
+.controlButtons {
+  display: flex;
+  gap: 5px;
+}
+
+.editButton {
+  padding: 5px;
+  color: var(--primary);
+  background-color: transparent;
+}
+
 .removeButton {
   display: none;
   font-size: 0.8rem;
@@ -30,5 +41,5 @@
 }
 
 .showRemoveButton button {
-  display: block;
+  display: inline;
 }
