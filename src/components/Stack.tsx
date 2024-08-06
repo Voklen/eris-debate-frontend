@@ -1,6 +1,13 @@
 import { type Params, useSearchParams } from "@solidjs/router";
 import { PencilLine } from "lucide-solid";
-import { For, Suspense, createResource, createSignal, onMount } from "solid-js";
+import {
+	For,
+	Show,
+	Suspense,
+	createResource,
+	createSignal,
+	onMount,
+} from "solid-js";
 import toast from "solid-toast";
 import { backendURL } from "~/utils/config";
 import type {
@@ -13,6 +20,7 @@ import type {
 import { isAdmin } from "~/utils/user";
 import AddArgumentTile from "./AddArgumentTile";
 import styles from "./Stack.module.css";
+import EditPopup from "./EditPopup";
 
 type Props = {
 	data: TopArgument;
@@ -24,6 +32,7 @@ export default function Stack(props: Props) {
 	const otherArgId = () => getOtherArgId(props.side, searchParams);
 	const [args, { mutate }] = createResource(otherArgId, fetchArg);
 	const [userIsAdmin, setUserIsAdmin] = createSignal(false);
+	const [showPopup, setShowPopup] = createSignal("");
 
 	onMount(() => {
 		setUserIsAdmin(isAdmin());
@@ -47,11 +56,18 @@ export default function Stack(props: Props) {
 			}
 		}
 	}
+	async function editPopup(e: MouseEvent, id: number) {
+		e.stopPropagation();
+		setShowPopup(`Editing ${id}`);
+	}
 
 	return (
 		<div class={styles.stack}>
 			<h2>{props.data.title}</h2>
 			<Suspense>
+				<Show when={showPopup()}>
+					<EditPopup />
+				</Show>
 				<For
 					each={args() ?? props.data.arguments.map(toTile)}
 					fallback={
@@ -61,6 +77,7 @@ export default function Stack(props: Props) {
 					{(arg) => {
 						const argSelected = () => setSearchParams({ [props.side]: arg.id });
 						const removeClicked = (e: MouseEvent) => removeArg(e, arg.id);
+						const editClicked = (e: MouseEvent) => editPopup(e, arg.id);
 						const id = arg.id.toString();
 
 						return (
@@ -80,7 +97,11 @@ export default function Stack(props: Props) {
 							>
 								<p>{arg.body}</p>
 								<div class={styles.controlButtons}>
-									<button type="button" class={styles.editButton}>
+									<button
+										type="button"
+										class={styles.editButton}
+										onClick={editClicked}
+									>
 										<PencilLine />
 									</button>
 									<button
