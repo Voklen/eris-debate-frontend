@@ -1,14 +1,14 @@
-import { Portal } from "solid-js/web";
-import styles from "./EditPopup.module.css";
 import { createSignal } from "solid-js";
+import styles from "./EditPopup.module.css";
+import Popup from "./Popup";
 
 export default function EditPopup() {
 	const [text, setText] = createSignal("");
 	const submit = () => {};
 
 	return (
-		<Portal mount={document.querySelector("body") ?? undefined}>
-			<form classList={{ [styles.popup]: true, card: true }}>
+		<Popup>
+			<form classList={{ [styles.form]: true, card: true }}>
 				<h2>Edit argument</h2>
 				<textarea
 					placeholder="Let’s get some good discussion going…"
@@ -18,7 +18,7 @@ export default function EditPopup() {
 				<button type="button" onClick={submit}>
 					Submit
 				</button>
-			</form>{" "}
-		</Portal>
+			</form>
+		</Popup>
 	);
 }
