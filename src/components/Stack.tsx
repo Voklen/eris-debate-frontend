@@ -22,7 +22,7 @@ export default function Stack(props: Props) {
 	const [searchParams, _setSearchParams] = useSearchParams();
 	const otherArgId = () => getOtherArgId(props.side, searchParams);
 	const [args, { mutate }] = createResource(otherArgId, fetchArg);
-	const [showPopup, setShowPopup] = createSignal("");
+	const [showPopup, setShowPopup] = createSignal<Argument | null>(null);
 
 	function appendArg(arg: ArgumentTile) {
 		mutate((args) => {
@@ -39,7 +39,7 @@ export default function Stack(props: Props) {
 			<h2>{props.data.title}</h2>
 			<Suspense>
 				<Show when={showPopup()}>
-					<EditPopup closePopup={() => setShowPopup("")} />
+					<EditPopup arg={showPopup()!} closePopup={() => setShowPopup(null)} />
 				</Show>
 				<For
 					each={args() ?? props.data.arguments.map(toTile)}

@@ -1,13 +1,15 @@
 import { createSignal } from "solid-js";
+import type { Argument } from "~/utils/types";
 import styles from "./EditPopup.module.css";
 import Popup from "./Popup";
 
 type Props = {
+	arg: Argument;
 	closePopup: () => void;
 };
 
 export default function EditPopup(props: Props) {
-	const [text, setText] = createSignal("");
+	const [text, setText] = createSignal(props.arg.body);
 	const submit = () => {};
 
 	return (

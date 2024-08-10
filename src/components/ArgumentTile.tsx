@@ -3,14 +3,14 @@ import { PencilLine } from "lucide-solid";
 import { createSignal, onMount } from "solid-js";
 import toast from "solid-toast";
 import { backendURL } from "~/utils/config";
-import type { ArgumentTile, Side } from "~/utils/types";
+import type { Argument, ArgumentTile, Side } from "~/utils/types";
 import { isAdmin } from "~/utils/user";
 import styles from "./ArgumentTile.module.css";
 
 type Props = {
 	arg: ArgumentTile;
 	side: Side;
-	showPopup: (msg: string) => void;
+	showPopup: (arg: Argument) => void;
 };
 
 export default function ArgumentTileElement(props: Props) {
@@ -24,7 +24,7 @@ export default function ArgumentTileElement(props: Props) {
 	const argSelected = () => setSearchParams({ [props.side]: props.arg.id });
 	const removeClicked = (e: MouseEvent) => removeArg(e, props.arg.id);
 	const editClicked = (e: MouseEvent) =>
-		editPopup(e, props.arg.id, props.showPopup);
+		editPopup(e, props.arg, props.showPopup);
 	const id = props.arg.id.toString();
 
 	return (
@@ -71,11 +71,11 @@ async function removeArg(e: MouseEvent, id: number) {
 
 async function editPopup(
 	e: MouseEvent,
-	id: number,
-	showPopup: (msg: string) => void,
+	arg: Argument,
+	showPopup: (arg: Argument) => void,
 ) {
 	e.stopPropagation();
-	showPopup(`Editing ${id}`);
+	showPopup(arg);
 }
 
 async function sendDeleteArgRequest(event: MouseEvent, id: number) {
