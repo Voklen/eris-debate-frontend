@@ -39,7 +39,7 @@ export default function Stack(props: Props) {
 			<h2>{props.data.title}</h2>
 			<Suspense>
 				<Show when={showPopup()}>
-					<EditPopup />
+					<EditPopup closePopup={() => setShowPopup("")} />
 				</Show>
 				<For
 					each={args() ?? props.data.arguments.map(toTile)}
