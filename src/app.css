@@ -67,6 +67,10 @@ button:hover {
   filter: contrast(85%);
 }
 
+button:disabled{
+  filter: contrast(50%);
+}
+
 button:active {
   color: var(--primary);
   background-color: var(--primary-foreground);

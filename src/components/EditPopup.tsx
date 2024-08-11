@@ -32,9 +32,13 @@ export default function EditPopup(props: Props) {
 				<textarea
 					placeholder="Let’s get some good discussion going…"
 					value={text()}
-					onChange={(e) => setText(e.currentTarget.value)}
+					onInput={(e) => setText(e.currentTarget.value)}
 				/>
-				<button type="button" onClick={submit}>
+				<button
+					type="button"
+					onClick={submit}
+					disabled={text() === props.arg.body}
+				>
 					Submit
 				</button>
 			</form>
