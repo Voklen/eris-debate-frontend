@@ -1,6 +1,8 @@
 import {
+	type NavigateOptions,
 	type Navigator,
 	type Params,
+	type SetParams,
 	useNavigate,
 	useSearchParams,
 } from "@solidjs/router";
@@ -10,9 +12,9 @@ import type { Topic } from "~/utils/types";
 import { Main } from "./_components/Main";
 
 export default function TopicPage() {
+	const [searchParams, setSearchParams] = useSearchParams();
 	const fetchTopicOrRedirect = (e: Partial<Params>) =>
-		fetchTopic(e, useNavigate());
-	const [searchParams, _setSearchParams] = useSearchParams();
+		fetchTopic(e, setSearchParams, useNavigate());
 	const [topic] = createResource(searchParams, fetchTopicOrRedirect);
 
 	return (
@@ -27,7 +29,18 @@ export default function TopicPage() {
 	);
 }
 
-async function fetchTopic(searchParams: Partial<Params>, navigate: Navigator) {
+type SetSearchParams = (
+	params: SetParams,
+	options?: Partial<NavigateOptions>,
+) => void;
+
+async function fetchTopic(
+	searchParams: Partial<Params>,
+	setSearchParams: SetSearchParams,
+	navigate: Navigator,
+) {
+	if (!searchParams.for) setSearchParams({ for: 0 }, { replace: true });
+	if (!searchParams.against) setSearchParams({ against: 0 }, { replace: true });
 	const id = searchParams.id;
 	if (!id) {
 		navigate("/");
