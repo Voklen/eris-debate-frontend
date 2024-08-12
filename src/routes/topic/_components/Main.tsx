@@ -11,11 +11,11 @@ type Props = {
 export function Main(props: Props) {
 	return (
 		<main class={styles.stage}>
-			<Stack data={props.topic.for} side="for" />
+			<Stack topArgument={props.topic.for} side="for" />
 			<div>
 				<Title>{props.topic.name} - Eris Debate</Title>
 			</div>
-			<Stack data={props.topic.against} side="against" />
+			<Stack topArgument={props.topic.against} side="against" />
 		</main>
 	);
 }
