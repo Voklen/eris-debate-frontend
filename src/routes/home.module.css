@@ -1,13 +1,13 @@
 #mainList {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  max-width: 100ch;
-  margin: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	max-width: 100ch;
+	margin: auto;
 }
 
 #mainList a {
-  cursor: pointer;
-  text-decoration: none;
-  color: var(--foreground);
+	cursor: pointer;
+	text-decoration: none;
+	color: var(--foreground);
 }

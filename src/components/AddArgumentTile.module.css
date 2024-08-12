@@ -1,30 +1,30 @@
 .add {
-  border: 3px dotted var(--muted);
-  border-radius: 1rem;
+	border: 3px dotted var(--muted);
+	border-radius: 1rem;
 }
 
 .add > div,
 .add > form {
-  padding: 20px;
+	padding: 20px;
 }
 
 .add > div {
-  font-size: 200%;
-  color: var(--muted);
-  text-align: center;
+	font-size: 200%;
+	color: var(--muted);
+	text-align: center;
 }
 
 .clicked {
-  border-color: var(--foreground);
+	border-color: var(--foreground);
 }
 
 .clicked > form {
-  cursor: default;
+	cursor: default;
 }
 
 .addForm > textarea {
-  margin: 1rem auto;
-  width: 100%;
-  height: 8em;
-  resize: vertical;
+	margin: 1rem auto;
+	width: 100%;
+	height: 8em;
+	resize: vertical;
 }

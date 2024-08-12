@@ -1,32 +1,32 @@
 .forSelected {
-  border-width: 2px;
-  border-color: #e260a7;
+	border-width: 2px;
+	border-color: #e260a7;
 }
 
 .againstSelected {
-  border-width: 2px;
-  border-color: #5fdf67;
+	border-width: 2px;
+	border-color: #5fdf67;
 }
 
 .controlButtons {
-  display: flex;
-  gap: 5px;
+	display: flex;
+	gap: 5px;
 }
 
 .editButton {
-  padding: 5px;
-  color: var(--primary);
-  background-color: transparent;
+	padding: 5px;
+	color: var(--primary);
+	background-color: transparent;
 }
 
 .removeButton {
-  display: none;
-  font-size: 0.8rem;
-  padding: 5px;
-  border: none;
-  z-index: 1;
+	display: none;
+	font-size: 0.8rem;
+	padding: 5px;
+	border: none;
+	z-index: 1;
 }
 
 .showRemoveButton button {
-  display: inline;
+	display: inline;
 }

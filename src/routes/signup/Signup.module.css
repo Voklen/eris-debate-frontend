@@ -1,33 +1,33 @@
 .form {
-  margin: auto;
-  width: fit-content;
-  padding: 64px;
-  text-align: start;
+	margin: auto;
+	width: fit-content;
+	padding: 64px;
+	text-align: start;
 }
 
 .form h1 {
-  margin-bottom: 1em;
+	margin-bottom: 1em;
 }
 
 .form input {
-  min-width: 40ch;
+	min-width: 40ch;
 }
 
 .form button {
-  margin-top: 2em;
+	margin-top: 2em;
 }
 
 .form button svg {
-  display: none;
+	display: none;
 }
 
 .form button:disabled {
-  filter: contrast(85%);
+	filter: contrast(85%);
 }
 
 .form button:disabled span {
-  display: none;
+	display: none;
 }
 .form button:disabled svg {
-  display: block;
+	display: block;
 }

@@ -1,12 +1,12 @@
 .stack {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
 }
 
 .stack > div {
-  cursor: pointer;
-  vertical-align: middle;
-  text-align: start;
-  z-index: 0;
+	cursor: pointer;
+	vertical-align: middle;
+	text-align: start;
+	z-index: 0;
 }

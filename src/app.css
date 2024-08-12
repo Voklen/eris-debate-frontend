@@ -1,111 +1,111 @@
 :root {
-  /* Permanent */
-  --radius: 0.5rem;
-  --positive: hsl(120 70% 41%);
-  --negative: hsl(0 72% 50%);
-  /* Light mode */
-  --background: hsl(0 0% 100%);
-  --foreground: hsl(240 10% 3.9%);
-  --primary: hsl(240 5.9% 10%);
-  --primary-foreground: hsl(0 0% 98%);
-  --muted: hsl(240 3.8% 46.1%);
-  --border: hsl(240 5.9% 90%);
-  --ring: hsl(240 5% 64.9%);
-  --shadow: 6px 6px 12px #bebebe;
+	/* Permanent */
+	--radius: 0.5rem;
+	--positive: hsl(120 70% 41%);
+	--negative: hsl(0 72% 50%);
+	/* Light mode */
+	--background: hsl(0 0% 100%);
+	--foreground: hsl(240 10% 3.9%);
+	--primary: hsl(240 5.9% 10%);
+	--primary-foreground: hsl(0 0% 98%);
+	--muted: hsl(240 3.8% 46.1%);
+	--border: hsl(240 5.9% 90%);
+	--ring: hsl(240 5% 64.9%);
+	--shadow: 6px 6px 12px #bebebe;
 }
 .dark {
-  --background: hsl(240 10% 3.9%);
-  --foreground: hsl(0 0% 98%);
-  --primary: hsl(0 0% 98%);
-  --primary-foreground: hsl(240 5.9% 10%);
-  --muted: hsl(240 5% 64.9%);
-  --border: hsl(240 3.7% 15.9%);
-  --ring: hsl(240 4.9% 83.9%);
-  --shadow: -6px -6px 12px #2b2b2b;
+	--background: hsl(240 10% 3.9%);
+	--foreground: hsl(0 0% 98%);
+	--primary: hsl(0 0% 98%);
+	--primary-foreground: hsl(240 5.9% 10%);
+	--muted: hsl(240 5% 64.9%);
+	--border: hsl(240 3.7% 15.9%);
+	--ring: hsl(240 4.9% 83.9%);
+	--shadow: -6px -6px 12px #2b2b2b;
 }
 
 body {
-  font-family: Gordita, Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
-    "Helvetica Neue", sans-serif;
-  color: var(--foreground);
-  background-color: var(--background);
+	font-family: Gordita, Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+		"Helvetica Neue", sans-serif;
+	color: var(--foreground);
+	background-color: var(--background);
 }
 
 main {
-  text-align: center;
-  padding: 16px;
+	text-align: center;
+	padding: 16px;
 }
 
 form label {
-  margin-top: 1em;
-  display: block;
+	margin-top: 1em;
+	display: block;
 }
 
 textarea,
 input {
-  display: block;
-  border: 1px solid var(--ring);
+	display: block;
+	border: 1px solid var(--ring);
 }
 
 input,
 button,
 textarea,
 select {
-  border-radius: var(--radius);
+	border-radius: var(--radius);
 }
 
 button {
-  padding: 1rem 3rem;
-  cursor: pointer;
-  color: var(--primary-foreground);
-  background-color: var(--primary);
-  border: 2px solid var(--border);
-  font-variant-numeric: tabular-nums;
+	padding: 1rem 3rem;
+	cursor: pointer;
+	color: var(--primary-foreground);
+	background-color: var(--primary);
+	border: 2px solid var(--border);
+	font-variant-numeric: tabular-nums;
 }
 
 button:hover {
-  filter: contrast(85%);
+	filter: contrast(85%);
 }
 
-button:disabled{
-  filter: contrast(50%);
+button:disabled {
+	filter: contrast(50%);
 }
 
 button:active {
-  color: var(--primary);
-  background-color: var(--primary-foreground);
+	color: var(--primary);
+	background-color: var(--primary-foreground);
 }
 
 .error {
-  color: var(--negative);
+	color: var(--negative);
 }
 
 .errorInput {
-  border-color: var(--negative);
+	border-color: var(--negative);
 }
 
 .info {
-  font-size: 120%;
-  margin: 2rem auto;
-  color: var(--primary);
+	font-size: 120%;
+	margin: 2rem auto;
+	color: var(--primary);
 }
 
 .card {
-  padding: 20px;
-  border: 1px solid var(--ring);
-  border-radius: 1rem;
-  background: var(--background);
-  box-shadow: var(--shadow);
+	padding: 20px;
+	border: 1px solid var(--ring);
+	border-radius: 1rem;
+	background: var(--background);
+	box-shadow: var(--shadow);
 }
 
 @media (min-width: 480px) {
-  h1 {
-    max-width: none;
-  }
+	h1 {
+		max-width: none;
+	}
 
-  p {
-    max-width: none;
-  }
+	p {
+		max-width: none;
+	}
 }
 
 /*
@@ -117,16 +117,16 @@ button:active {
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 /*
   2. Remove default margin 
   7. Avoid text overflows
 */
 * {
-  margin: 0;
-  overflow-wrap: break-word;
-  hyphens: auto;
+	margin: 0;
+	overflow-wrap: break-word;
+	hyphens: auto;
 }
 /*
   Typographic tweaks!
@@ -134,8 +134,8 @@ button:active {
   4. Improve text rendering
 */
 body {
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
 }
 /* 5. Improve media defaults */
 img,
@@ -143,8 +143,8 @@ picture,
 video,
 canvas,
 svg {
-  display: block;
-  max-width: 100%;
+	display: block;
+	max-width: 100%;
 }
 /*
   6. Remove built-in form typography styles
@@ -154,7 +154,7 @@ input,
 button,
 textarea,
 select {
-  font: inherit;
-  letter-spacing: inherit;
-  word-spacing: inherit;
+	font: inherit;
+	letter-spacing: inherit;
+	word-spacing: inherit;
 }
