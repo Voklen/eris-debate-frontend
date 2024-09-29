@@ -1,4 +1,4 @@
-import { useNavigate, useSearchParams } from "@solidjs/router";
+import { useNavigate, useParams } from "@solidjs/router";
 import { Match, Switch, createResource } from "solid-js";
 import { backendURL } from "~/utils/config";
 import type { Topic } from "~/utils/types";
@@ -20,8 +20,8 @@ export default function TopicPage() {
 }
 
 async function fetchTopic() {
-	const [searchParams, _setSearchParams] = useSearchParams();
-	const id = searchParams.id;
+	const params = useParams();
+	const id = params.id;
 	if (!id) {
 		const navigate = useNavigate();
 		navigate("/");
