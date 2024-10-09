@@ -26,6 +26,6 @@ async function fetchTopic() {
 		const navigate = useNavigate();
 		navigate("/");
 	}
-	const res = await fetch(`${backendURL}/topic?id=${id}`);
+	const res = await fetch(`${backendURL}/topic/${id}`);
 	return (await res.json()) as Topic;
 }
