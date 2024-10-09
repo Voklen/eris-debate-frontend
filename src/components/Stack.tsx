@@ -74,7 +74,7 @@ export default function Stack(props: Props) {
 
 async function fetchArg(id: number) {
 	if (id === 0) return;
-	const res = await fetch(`${backendURL}/arguments?id=${id}`);
+	const res = await fetch(`${backendURL}/arguments/${id}`);
 	const args: { args: Argument[] } = await res.json();
 	const argTiles: ArgumentTile[] = args.args.map(toTile);
 	return argTiles;
