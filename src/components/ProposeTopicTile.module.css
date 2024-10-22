@@ -1,0 +1,41 @@
+.add {
+	border: 3px dotted var(--muted);
+	border-radius: 1rem;
+}
+
+.add > div,
+.add > form {
+	padding: 20px;
+}
+
+.add > div {
+	font-size: 200%;
+	color: var(--muted);
+}
+
+.add h2 {
+	text-align: center;
+}
+
+.clicked {
+	border-color: var(--foreground);
+}
+
+.clicked > form {
+	cursor: default;
+}
+
+.addForm {
+	text-align: start;
+}
+
+.addForm > input {
+	width: 50%;
+}
+
+.addForm > textarea {
+	margin: 1rem auto;
+	width: 100%;
+	height: 8em;
+	resize: vertical;
+}

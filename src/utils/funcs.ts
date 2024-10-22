@@ -20,7 +20,7 @@ export function getFormData(
 	const formData = emptyFormData;
 	for (const key in formData) {
 		const inputElement = form.querySelector(
-			`input[name="${key}"]`,
+			`input[name="${key}"],textarea[name="${key}"]`,
 		) as HTMLInputElement;
 		if (inputElement === null) continue;
 		formData[key as keyof typeof emptyFormData] = inputElement.value;

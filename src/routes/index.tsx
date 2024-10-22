@@ -1,6 +1,7 @@
 import { For, Match, Switch, createResource } from "solid-js";
 import { backendURL } from "~/utils/config";
 import styles from "./home.module.css";
+import ProposeTopicTile from "~/components/ProposeTopicTile";
 
 export default function Home() {
 	const [topics] = createResource(fetchTopics);
@@ -27,6 +28,7 @@ export default function Home() {
 							);
 						}}
 					</For>
+					<ProposeTopicTile />
 				</Match>
 			</Switch>
 		</main>
