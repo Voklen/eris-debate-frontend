@@ -1,1 +1,1 @@
-export const backendURL = "http://api.erisdebate.org";
+export const backendURL = "https://api.erisdebate.org";
