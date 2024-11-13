@@ -14,6 +14,7 @@ const emptyFormData = {
 	password: "",
 };
 const emptyErrorMessages = {
+	general: "",
 	email: "",
 	password: "",
 };
@@ -31,7 +32,7 @@ export default function Login() {
 		navigate("/");
 	};
 	return (
-		<main class={styles.main}>
+		<main>
 			<form class={`${styles.form} card`} onSubmit={onSubmit}>
 				<h1>Login</h1>
 				<label for="email">Email</label>
@@ -62,6 +63,9 @@ export default function Login() {
 					<span>Login</span>
 					<Icons.spinner />
 				</button>
+				<Show when={errorMessages.general}>
+					<p class="error">{errorMessages.general}</p>
+				</Show>
 			</form>
 		</main>
 	);
@@ -80,9 +84,12 @@ async function submitForm(
 	} catch (e) {
 		if (e instanceof AccountNotExistsError) {
 			errorMessages("email", e.message);
-		}
-		if (e instanceof IncorrectPasswordError) {
+		} else if (e instanceof IncorrectPasswordError) {
 			errorMessages("password", e.message);
+		} else if (e instanceof Error) {
+			errorMessages("general", e.message);
+		} else {
+			errorMessages("general", `Caught non-error: ${e}`);
 		}
 	} finally {
 		button.removeAttribute("disabled");

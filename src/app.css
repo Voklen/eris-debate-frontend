@@ -78,6 +78,8 @@ button:active {
 
 .error {
 	color: var(--negative);
+	margin: 10px;
+	font-size: 120%;
 }
 
 .errorInput {

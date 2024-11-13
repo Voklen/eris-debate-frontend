@@ -14,6 +14,7 @@ const emptyFormData = {
 	confirmPassword: "",
 };
 const emptyErrorMessages = {
+	general: "",
 	email: "",
 	username: "",
 	password: "",
@@ -26,7 +27,7 @@ export default function Signup() {
 	const onSubmit = (e: SubmitEvent) =>
 		submitForm(e, setErrorMessages, navigate);
 	return (
-		<main class={styles.main}>
+		<main>
 			<form class={`${styles.form} card`} onSubmit={onSubmit}>
 				<h1>Signup</h1>
 				<label for="email">Email</label>
@@ -83,6 +84,9 @@ export default function Signup() {
 					<span>Submit</span>
 					<Icons.spinner />
 				</button>
+				<Show when={errorMessages.general}>
+					<p class="error">{errorMessages.general}</p>
+				</Show>
 			</form>
 		</main>
 	);
@@ -103,9 +107,12 @@ async function submitForm(
 	} catch (e) {
 		if (e instanceof EmailInUseError) {
 			errorMessages("email", e.message);
-		}
-		if (e instanceof UsernameInUseError) {
+		} else if (e instanceof UsernameInUseError) {
 			errorMessages("username", e.message);
+		} else if (e instanceof Error) {
+			errorMessages("general", e.message);
+		} else {
+			errorMessages("general", `Caught non-error: ${e}`);
 		}
 	} finally {
 		button.removeAttribute("disabled");
