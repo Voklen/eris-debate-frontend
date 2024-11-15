@@ -23,7 +23,7 @@ function Root(props: Props) {
 	return (
 		<MetaProvider>
 			<AuthProvider>
-				<Title>SolidStart - Basic</Title>
+				<Title>Eris Debate</Title>
 				<Navbar />
 				<Suspense>{props.children}</Suspense>
 				<Toaster position="bottom-center" />

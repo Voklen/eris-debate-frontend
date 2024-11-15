@@ -8,6 +8,7 @@ import { AccountNotExistsError, IncorrectPasswordError } from "~/utils/errors";
 import { getFormData, randomPlaceholder } from "~/utils/funcs";
 import type { User } from "~/utils/types";
 import styles from "./Login.module.css";
+import SuffixTitle from "~/components/SuffixTitle";
 
 const emptyFormData = {
 	email: "",
@@ -33,6 +34,7 @@ export default function Login() {
 	};
 	return (
 		<main>
+			<SuffixTitle>Login</SuffixTitle>
 			<form class={`${styles.form} card`} onSubmit={onSubmit}>
 				<h1>Login</h1>
 				<label for="email">Email</label>
