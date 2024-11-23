@@ -52,19 +52,19 @@ export default function ProposeTopicTile() {
 					<input
 						id="name"
 						name="name"
-						placeholder="Should users be able to suggest topics?"
+						placeholder="Should firearms be legal?"
 					/>
 					<label for="for_argument">For title</label>
 					<input
 						id="for_argument"
 						name="for_argument"
-						placeholder="Users should be able to suggest topics"
+						placeholder="Firearms should be legal to own and operate"
 					/>
 					<label for="against_argument">Against title</label>
 					<input
 						id="against_argument"
 						name="against_argument"
-						placeholder="Users should not be able to suggest topics"
+						placeholder="Firearms should be illegal to own and operate"
 					/>
 					<label for="reason">Why should this be a topic?</label>
 					<textarea id="reason" name="reason" />
