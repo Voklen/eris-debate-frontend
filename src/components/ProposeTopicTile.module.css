@@ -17,12 +17,12 @@
 	text-align: center;
 }
 
-.clicked {
-	border-color: var(--foreground);
+.addButton {
+	cursor: pointer;
 }
 
-.clicked > form {
-	cursor: default;
+.clicked {
+	border-color: var(--foreground);
 }
 
 .addForm {

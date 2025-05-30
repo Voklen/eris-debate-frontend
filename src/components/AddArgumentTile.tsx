@@ -55,6 +55,7 @@ export default function AddArgumentTile(props: Props) {
 							if (e.key === "Enter") openInput();
 						}}
 						tabIndex={0}
+						class={styles.addButton}
 					>
 						+
 					</div>
