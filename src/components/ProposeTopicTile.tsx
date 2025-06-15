@@ -54,18 +54,21 @@ export default function ProposeTopicTile() {
 						id="name"
 						name="name"
 						placeholder="Should firearms be legal?"
+						spellcheck={true}
 					/>
 					<label for="for_argument">For title</label>
 					<input
 						id="for_argument"
 						name="for_argument"
 						placeholder="Firearms should be legal to own and operate"
+						spellcheck={true}
 					/>
 					<label for="against_argument">Against title</label>
 					<input
 						id="against_argument"
 						name="against_argument"
 						placeholder="Firearms should be illegal to own and operate"
+						spellcheck={true}
 					/>
 					<label for="reason">Why should this be a topic?</label>
 					<textarea id="reason" name="reason" />
